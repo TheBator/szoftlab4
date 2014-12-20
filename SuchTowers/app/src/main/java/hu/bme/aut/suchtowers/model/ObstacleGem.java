@@ -8,15 +8,15 @@ public class ObstacleGem extends Gem {
 	public static final ObstacleGem orange;
 	protected double speed;
 
-	protected ObstacleGem(double range, double speed) {
+	protected ObstacleGem(float range, double speed) {
 		this.range = range;
 		this.speed = speed;
 		cost = 250;
 	}
 
 	static {
-		yellow = new ObstacleGem(1.5, 0.6);
-		orange = new ObstacleGem(1.1, 0.56);
+		yellow = new ObstacleGem(1.5f, 0.6);
+		orange = new ObstacleGem(1.1f, 0.56);
 	}
 
 	/**

@@ -5,7 +5,7 @@ package hu.bme.aut.suchtowers.model;
  */
 public abstract class Gem {
 
-	protected double range;
+	protected float range;
 	protected int cost = 400;
 
 	/**
@@ -13,7 +13,7 @@ public abstract class Gem {
 	 *
 	 * @return A hatótávolság együtthatója.
 	 */
-	public double getRangeMultiplier() {
+	public float getRangeMultiplier() {
 		return range;
 	}
 

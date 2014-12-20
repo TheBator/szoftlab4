@@ -12,7 +12,7 @@ public class TowerGem extends Gem {
 	protected double damage;
 	protected double rate;
 
-	protected TowerGem(double range, double damage, double rate) {
+	protected TowerGem(float range, double damage, double rate) {
 		this.range = range;
 		this.damage = damage;
 		this.rate = rate;
@@ -20,9 +20,9 @@ public class TowerGem extends Gem {
 	}
 
 	static {
-		red = new TowerGem(1.1, 1.5, 1.1);
-		blue = new TowerGem(1.1, 1.1, 1.5);
-		green = new TowerGem(1.5, 1.1, 1.1);
+		red = new TowerGem(1.1f, 1.5, 1.1);
+		blue = new TowerGem(1.1f, 1.1, 1.5);
+		green = new TowerGem(1.5f, 1.1, 1.1);
 	}
 
 	/**

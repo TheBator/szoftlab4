@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Obstacle {
 	public static final int cost = 500;
 	private static HashMap<EnemyType, Double> slowingFactor;
-	public static final double range = 2;
+	public static final float range = 2;
 
 	static {
 		slowingFactor = new HashMap<EnemyType, Double>();
@@ -88,8 +88,8 @@ public class Obstacle {
 		return slow;
 	}
 
-	public double getRange() {
-		double rtn = range;//* Fog.getRangeMultiplier();
+	public float getRange() {
+		float rtn = range;//* Fog.getRangeMultiplier();
 		if (gem != null)
 			rtn *= gem.getRangeMultiplier();
 

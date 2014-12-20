@@ -9,7 +9,7 @@ import java.util.List;
  * @author Nusser Ádám
  */
 public class Tower {
-	static final double range = 13;
+	static final float range = 13;
 	static final double fireRate = 1;
 	static final int cost = 750;
 	static final int projectileSpeed = 25;
@@ -135,7 +135,7 @@ public class Tower {
 	 *
 	 * @return A torony hatótávolsága.
 	 */
-	public double getRange() {
+	public float getRange() {
 		if (comeatmebro)
 			return 40;
 

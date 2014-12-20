@@ -1,4 +1,4 @@
-package hu.bme.aut.suchtowers.model;
+package hu.bme.aut.suchtowers.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,7 +7,7 @@ import android.graphics.Color;
 /**
  * A játéktérre kirajzolható objektumok közös absztrakt ősosztálya.
  */
-public abstract class Drawable implements Comparable<Drawable> {
+public abstract class GameDrawable implements Comparable<GameDrawable> {
 	/**
 	 * Megadja a kirajzolási sorrendet
 	 */
@@ -27,7 +27,7 @@ public abstract class Drawable implements Comparable<Drawable> {
 	/**
 	 * Két Drawable példányt hasonlít össze a z-indexük alapján.
 	 */
-	public int compareTo(Drawable other) {
+	public int compareTo(GameDrawable other) {
 		return other.z_index - this.z_index;
 	}
 

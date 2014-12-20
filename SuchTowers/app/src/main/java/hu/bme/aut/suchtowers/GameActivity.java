@@ -5,13 +5,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.InputStream;
+
+import hu.bme.aut.suchtowers.model.Game;
+
 
 public class GameActivity extends Activity {
-
+    private Game game;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        InputStream map = getResources().openRawResource(R.raw.loop);
+        InputStream mission = getResources().openRawResource(R.raw.loop_epic);
+        game = new Game(getBaseContext(), map, mission);
+        GameView gv = (GameView)findViewById(R.id.game_view);
+        gv.setGame(game);
+        game.setObserver(gv);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GameActivity.this.game.run();
+            }
+        }).start();
     }
 
 

@@ -4,12 +4,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Az ellenséget ütemezését megvalósító osztály.
@@ -24,32 +25,32 @@ public class Mission {
 	/**
 	 * A kapott útvonalról betölti a Mission-t.
 	 */
-	public Mission(String path, Map map) throws Exception {
-		File xmlFile = new File(path);
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document d = db.parse(xmlFile);
-		d.getDocumentElement().normalize();
+    public Mission(InputStream xmlFile, Map map) throws Exception {
+        //File xmlFile = new File(path);
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document d = db.parse(xmlFile);
+        d.getDocumentElement().normalize();
 
-		Element mission = (Element) d.getElementsByTagName("mission").item(0);
+        Element mission = (Element) d.getElementsByTagName("mission").item(0);
 
-		spawnList = new ArrayList<Spawn>();
+        spawnList = new ArrayList<Spawn>();
 
-		HashMap<String, EnemyType> str2type = new HashMap<String, EnemyType>();
-		str2type.put("elf", EnemyType.elf);
-		str2type.put("dwarf", EnemyType.dwarf);
-		str2type.put("hobbit", EnemyType.hobbit);
-		str2type.put("human", EnemyType.human);
+        HashMap<String, EnemyType> str2type = new HashMap<String, EnemyType>();
+        str2type.put("elf", EnemyType.elf);
+        str2type.put("dwarf", EnemyType.dwarf);
+        str2type.put("hobbit", EnemyType.hobbit);
+        str2type.put("human", EnemyType.human);
 
-		NodeList ens = mission.getElementsByTagName("enemy");
-		for (int i = 0; i < ens.getLength(); ++i) {
-			Element en = (Element) ens.item(i);
-			EnemyType type = str2type.get(en.getElementsByTagName("type").item(0).getTextContent());
-			int wpid = Integer.parseInt(en.getElementsByTagName("waypointID").item(0).getTextContent());
-			double time = Double.parseDouble(en.getElementsByTagName("time").item(0).getTextContent());
-			spawnList.add(new Spawn(new Enemy(type, map.getWaypointByID(wpid)), time));
-		}
-	}
+        NodeList ens = mission.getElementsByTagName("enemy");
+        for (int i = 0; i < ens.getLength(); ++i) {
+            Element en = (Element) ens.item(i);
+            EnemyType type = str2type.get(en.getElementsByTagName("type").item(0).getTextContent());
+            int wpid = Integer.parseInt(en.getElementsByTagName("waypointID").item(0).getTextContent());
+            float time = Float.parseFloat(en.getElementsByTagName("time").item(0).getTextContent());
+            spawnList.add(new Spawn(new Enemy(type, map.getWaypointByID(wpid)), time));
+        }
+    }
 
 	/**
 	 * Lekéri a következő ellenséget..

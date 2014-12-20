@@ -1,5 +1,8 @@
 package hu.bme.aut.suchtowers.model;
 
+import android.content.Context;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,13 +57,13 @@ public class Game {
 	/**
 	 * A játék konstruktora, betölt egy pályát és egy missziót
 	 *
-	 * @param mapName     a map fájl neve
-	 * @param missionName a mission fájl neve
+	 * @param mapStream     a map fájl neve
+	 * @param missionStream a mission fájl neve
 	 */
-	public Game(String mapName, String missionName) {
+	public Game(Context context, InputStream mapStream, InputStream missionStream) {
 		try {
-			map = new Map("maps/" + mapName + ".map");
-			mission = new Mission("missions/" + mapName + "_" + missionName + ".mission", map);
+			map = new Map(mapStream);
+			mission = new Mission(missionStream, map);
 		//	view = new View(this, map);
 		//	view.magicChange(magic);
 		//	view.addDrawable(new GraphicFog());
@@ -75,9 +78,13 @@ public class Game {
 		}
 	}
 
-//	public View getView() {
-//		return view;
-//	}
+    public void setObserver(Observer ob) {
+        view = ob;
+    }
+
+    public Map getMap() {
+        return map;
+    }
 
 	/**
 	 * Inicializája a vizuális FPS számlálót

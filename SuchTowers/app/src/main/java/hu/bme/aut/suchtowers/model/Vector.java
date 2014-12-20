@@ -6,10 +6,10 @@ package hu.bme.aut.suchtowers.model;
  * @author Nusser Ádám
  */
 public class Vector {
-	public double x;
-	public double y;
+	public float x;
+	public float y;
 
-	public Vector(double x, double y) {
+	public Vector(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -30,8 +30,8 @@ public class Vector {
 	/**
 	 * @return Visszatér a két vektor közötti távolsággal.
 	 */
-	public double getDistance(Vector v) {
-		return Math.sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
+	public float getDistance(Vector v) {
+		return (float)Math.sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
 	}
 
 	/**

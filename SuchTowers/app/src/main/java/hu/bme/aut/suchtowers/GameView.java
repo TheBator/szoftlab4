@@ -2,25 +2,34 @@ package hu.bme.aut.suchtowers;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import hu.bme.aut.suchtowers.model.Enemy;
+import hu.bme.aut.suchtowers.model.Game;
+import hu.bme.aut.suchtowers.model.Observer;
+import hu.bme.aut.suchtowers.model.Obstacle;
+import hu.bme.aut.suchtowers.model.Projectile;
+import hu.bme.aut.suchtowers.model.Tower;
+import hu.bme.aut.suchtowers.view.GameDrawable;
+import hu.bme.aut.suchtowers.view.GraphicEnemy;
+import hu.bme.aut.suchtowers.view.GraphicMap;
+import hu.bme.aut.suchtowers.view.GraphicObstacle;
+import hu.bme.aut.suchtowers.view.GraphicProjectile;
+import hu.bme.aut.suchtowers.view.GraphicTower;
 
 
 /**
  * TODO: document your custom view class.
  */
-public class GameView extends View {
-    private String mExampleString = "asd"; // TODO: use a default from R.string...
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
-    private Drawable mExampleDrawable;
-
-    private TextPaint mTextPaint;
-    private float mTextWidth;
-    private float mTextHeight;
+public class GameView extends View implements Observer {
+    private List<GameDrawable> drawables = new ArrayList<GameDrawable>();
+    private float density = getResources().getDisplayMetrics().density;
+    private Game game;
 
     public GameView(Context context) {
         super(context);
@@ -37,133 +46,114 @@ public class GameView extends View {
         init(attrs, defStyle);
     }
 
-    private void init(AttributeSet attrs, int defStyle) {
-      /*  // Load attributes
-        final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.GameView, defStyle, 0);
-
-        mExampleString = a.getString(
-                R.styleable.GameView_exampleString);
-        mExampleColor = a.getColor(
-                R.styleable.GameView_exampleColor,
-                mExampleColor);
-        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-        // values that should fall on pixel boundaries.
-        mExampleDimension = a.getDimension(
-                R.styleable.GameView_exampleDimension,
-                mExampleDimension);
-
-        if (a.hasValue(R.styleable.GameView_exampleDrawable)) {
-            mExampleDrawable = a.getDrawable(
-                    R.styleable.GameView_exampleDrawable);
-            mExampleDrawable.setCallback(this);
-        }
-
-        a.recycle();
-
-        // Set up a default TextPaint object
-        mTextPaint = new TextPaint();
-        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextAlign(Paint.Align.LEFT);
-
-        // Update TextPaint and text measurements from attributes
-        invalidateTextPaintAndMeasurements();*/
+    public void setGame(Game game) {
+        this.game = game;
+        drawables.add(new GraphicMap(game.getMap(), getResources()));
     }
 
-    private void invalidateTextPaintAndMeasurements() {
-       /* mTextPaint.setTextSize(mExampleDimension);
-        mTextPaint.setColor(mExampleColor);
-        mTextWidth = mTextPaint.measureText(mExampleString);
+    private void init(AttributeSet attrs, int defStyle) {
 
-        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-        mTextHeight = fontMetrics.bottom;*/
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-/*
-        // TODO: consider storing these as member variables to reduce
-        // allocations per draw cycle.
-        int paddingLeft = getPaddingLeft();
-        int paddingTop = getPaddingTop();
-        int paddingRight = getPaddingRight();
-        int paddingBottom = getPaddingBottom();
 
-        int contentWidth = getWidth() - paddingLeft - paddingRight;
-        int contentHeight = getHeight() - paddingTop - paddingBottom;
+        synchronized (drawables) {
+            for (GameDrawable d : drawables) {
+                d.draw(canvas);
+            }
+        }
+    }
 
-        // Draw the text.
-        canvas.drawText(mExampleString,
-                paddingLeft + (contentWidth - mTextWidth) / 2,
-                paddingTop + (contentHeight + mTextHeight) / 2,
-                mTextPaint);
+    @Override
+    public void drawAll() {
+        postInvalidate();
+    }
 
-        // Draw the example drawable on top of the text.
-        if (mExampleDrawable != null) {
-            mExampleDrawable.setBounds(paddingLeft, paddingTop,
-                    paddingLeft + contentWidth, paddingTop + contentHeight);
-            mExampleDrawable.draw(canvas);
-        }*/
+    @Override
+    public void enemyAdded(Enemy e) {
+        synchronized (drawables) {
+            drawables.add(new GraphicEnemy(e, getResources()));
+        }
+    }
+
+    @Override
+    public void gameLost() {
+        //TODO
+    }
+
+    @Override
+    public void gameWon() {
+        //TODO
+    }
+
+    @Override
+    public void projectileAdded(Projectile p) {
+        synchronized (drawables) {
+            drawables.add(new GraphicProjectile(p, getResources()));
+        }
+    }
+
+    @Override
+    public void projectileExploded(Projectile p) {
+        synchronized (drawables) {
+            drawables.remove(new GraphicProjectile(p, getResources()));
+        }
+    }
+
+    @Override
+    public void magicChanged(int amount) {
+        //TODO
+        synchronized (drawables) {
+
+        }
+    }
+
+    @Override
+    public void enemyDied(Enemy e) {
+        synchronized (drawables) {
+            drawables.remove(new GraphicEnemy(e, getResources()));
+        }
+    }
+
+    @Override
+    public void towerEnchanted(Tower t) {
+        synchronized (drawables) {
+            GraphicTower gt = (GraphicTower) drawables.get(drawables.indexOf(new GraphicTower(t, getResources())));
+            gt.setGem();
+        }
     }
 
     /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
+     * Hozzáad egy gem-et egy már a kirajzolandó listában lévő akadályhoz.
      */
-    public String getExampleString() {
-        return mExampleString;
+    public void obstacleEnchanted(Obstacle o) {
+        synchronized (drawables) {
+            GraphicObstacle go = (GraphicObstacle) drawables.get(drawables.indexOf(new GraphicObstacle(o, getResources())));
+            go.setGem();
+        }
     }
 
     /**
-     * Sets the view's example string attribute value. In the example view, this string
-     * is the text to draw.
-     *
-     * @param exampleString The example string attribute value to use.
+     * Hozzáad egy tornyot a kirajzolandó objektumokhoz.
      */
-    public void setExampleString(String exampleString) {
-        mExampleString = exampleString;
-        invalidateTextPaintAndMeasurements();
+    @Override
+    public void towerAdded(Tower t) {
+        synchronized (drawables) {
+            drawables.add(new GraphicTower(t, getResources()));
+            Collections.sort(drawables, Collections.reverseOrder());
+        }
     }
 
     /**
-     * Gets the example color attribute value.
-     *
-     * @return The example color attribute value.
+     * Hozzáad egy akadályt a kirajzolandó objektumokhoz.
      */
-    public int getExampleColor() {
-        return mExampleColor;
-    }
-
-    /**
-     * Sets the view's example color attribute value. In the example view, this color
-     * is the font color.
-     *
-     * @param exampleColor The example color attribute value to use.
-     */
-    public void setExampleColor(int exampleColor) {
-        mExampleColor = exampleColor;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example dimension attribute value.
-     *
-     * @return The example dimension attribute value.
-     */
-    public float getExampleDimension() {
-        return mExampleDimension;
-    }
-
-    /**
-     * Sets the view's example dimension attribute value. In the example view, this dimension
-     * is the font size.
-     *
-     * @param exampleDimension The example dimension attribute value to use.
-     */
-    public void setExampleDimension(float exampleDimension) {
-        mExampleDimension = exampleDimension;
-        invalidateTextPaintAndMeasurements();
+    @Override
+    public void obstacleAdded(Obstacle o) {
+        synchronized (drawables) {
+            drawables.add(new GraphicObstacle(o, getResources()));
+            Collections.sort(drawables, Collections.reverseOrder());
+        }
     }
 }

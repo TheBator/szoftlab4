@@ -13,11 +13,11 @@ public class Fog {
 	 * Attól függően, hogy be van-e kapcsolva a köd,
 	 * visszaad egy látótávolság szorzót
 	 */
-	public static double getRangeMultiplier() {
+	public static float getRangeMultiplier() {
 		if (isSet)
-			return 0.65;
+			return 0.65f;
 
-		return 1.0;
+		return 1.0f;
 	}
 
 	public static void setFog(boolean fog) {
