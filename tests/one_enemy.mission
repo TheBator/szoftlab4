@@ -1,9 +1,0 @@
-<mission>
-	<name>Test</name>
-	<enemy>
-		<id>0</id>
-		<waypointID>1</waypointID>
-		<type>human</type>
-		<time>0</time>
-	</enemy>
-</mission>

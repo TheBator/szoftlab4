@@ -1,5 +1,0 @@
-loadMap test.map
-loadMission one_enemy.mission
-step 31
-listEnemies
-exit

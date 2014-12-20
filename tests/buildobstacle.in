@@ -1,5 +1,0 @@
-loadMap test.map
-loadMission test.mission
-buildObstacle 5 5
-listObstacles
-exit

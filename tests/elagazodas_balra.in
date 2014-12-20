@@ -1,7 +1,0 @@
-loadMap elagazodas.map
-loadMission one_enemy.mission
-step 1
-setWaypoint 0 3
-step 70
-listEnemies
-exit
