@@ -1,12 +1,12 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
+
 /**
  * Egy ellenség megvalósítása.
  *
- * @author Szabó Antal
- * @author Tallér Bátor
  */
-public class Enemy {
+public class Enemy implements Serializable {
 	private EnemyType type;
 	private double health;
 	private Vector position;

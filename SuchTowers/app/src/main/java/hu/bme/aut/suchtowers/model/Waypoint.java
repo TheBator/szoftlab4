@@ -1,5 +1,6 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  *
  * @author Nusser Ádám
  */
-public class Waypoint {
+public class Waypoint implements Serializable {
 
 	private Vector position;
 	private double distance;

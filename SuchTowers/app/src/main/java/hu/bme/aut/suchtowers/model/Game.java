@@ -3,6 +3,7 @@ package hu.bme.aut.suchtowers.model;
 import android.content.Context;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Random;
  * @author Szabó Antal
  * @author Török Attila
  */
-public class Game {
+public class Game implements Serializable {
 	public static final int FPS = 60;
 	private Map map = null;
 	private Mission mission = null;

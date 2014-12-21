@@ -1,12 +1,14 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
+
 /**
  * Az ellenségek típusát leíró osztály.
  *
  * @author Szabó Antal
  * @author Tallér Bátor
  */
-public class EnemyType {
+public class EnemyType implements Serializable {
 
 	public final static EnemyType elf;
 	public final static EnemyType dwarf;

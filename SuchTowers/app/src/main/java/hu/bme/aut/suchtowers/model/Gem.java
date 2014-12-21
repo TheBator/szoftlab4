@@ -1,9 +1,11 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
+
 /**
  * A varázskövek közös, absztrakt ősosztálya.
  */
-public abstract class Gem {
+public abstract class Gem implements Serializable {
 
 	protected float range;
 	protected int cost = 400;

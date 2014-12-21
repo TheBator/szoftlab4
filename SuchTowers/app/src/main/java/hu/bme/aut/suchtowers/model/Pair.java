@@ -1,11 +1,13 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
+
 /**
  * Párokat tároló generikus osztály.
  *
  * @author Nusser Ádám
  */
-public class Pair<K, V> {
+public class Pair<K, V> implements Serializable {
 	public K a;
 	public V b;
 

@@ -1,11 +1,13 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
+
 /**
  * Egy lövedék viselkedését megvalósító osztály.
  *
  * @author Nusser Ádám
  */
-public class Projectile {
+public class Projectile implements Serializable {
 
 	protected double damage;
 	protected Vector position;

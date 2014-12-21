@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * @author Nusser Ádám
  * @author Szabó Antal
  */
-public class Mission {
+public class Mission implements Serializable {
 
 	private List<Spawn> spawnList;
 

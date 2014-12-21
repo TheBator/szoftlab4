@@ -1,5 +1,6 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -8,7 +9,7 @@ import java.util.HashMap;
  * @author Tallér Bátor
  * @author Török Attila
  */
-public class Obstacle {
+public class Obstacle implements Serializable {
 	public static final int cost = 500;
 	private static HashMap<EnemyType, Double> slowingFactor;
 	public static final float range = 2;

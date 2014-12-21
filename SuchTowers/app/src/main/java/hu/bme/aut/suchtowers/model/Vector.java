@@ -1,11 +1,13 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
+
 /**
  * Egy koordináta pontot megvalósító osztály.
  *
  * @author Nusser Ádám
  */
-public class Vector {
+public class Vector implements Serializable {
 	public float x;
 	public float y;
 

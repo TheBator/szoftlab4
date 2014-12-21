@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ import hu.bme.aut.suchtowers.view.GraphicTower;
 /**
  * TODO: document your custom view class.
  */
-public class GameView extends View implements GameObserver {
+public class GameView extends View implements GameObserver, Serializable {
     private List<GameDrawable> drawables = new ArrayList<GameDrawable>();
     private float density = getResources().getDisplayMetrics().density;
     private Game game;

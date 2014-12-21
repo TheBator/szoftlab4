@@ -5,10 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.io.Serializable;
+
 /**
  * A játéktérre kirajzolható objektumok közös absztrakt ősosztálya.
  */
-public abstract class GameDrawable implements Comparable<GameDrawable> {
+public abstract class GameDrawable implements Comparable<GameDrawable>, Serializable {
 	/**
 	 * Megadja a kirajzolási sorrendet
 	 */

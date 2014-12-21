@@ -1,14 +1,14 @@
 package hu.bme.aut.suchtowers.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * Egy tornyot megvalósító osztály.
  *
- * @author Nusser Ádám
  */
-public class Tower {
+public class Tower implements Serializable {
 	static final float range = 13;
 	static final double fireRate = 1;
 	static final int cost = 750;
