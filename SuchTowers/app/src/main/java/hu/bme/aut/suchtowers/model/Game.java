@@ -44,7 +44,7 @@ public class Game implements Serializable {
 	/* debuggoláshoz */
 	private double speed = 1.0;
 
-	private GameObserver view;
+	private transient GameObserver view;
 
 	/**
 	 * A játék lehetséges állapotai

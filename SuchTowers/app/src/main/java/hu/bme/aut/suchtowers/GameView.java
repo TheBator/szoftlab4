@@ -34,9 +34,10 @@ import hu.bme.aut.suchtowers.view.GraphicTower;
 public class GameView extends View implements GameObserver, Serializable {
     private List<GameDrawable> drawables = new ArrayList<GameDrawable>();
     private float density = getResources().getDisplayMetrics().density;
-    private Game game;
+    private transient Game game;
     private int magic;
     private String msg = "";
+    private GameActivity activity;
 
     public GameView(Context context) {
         super(context);
@@ -53,9 +54,17 @@ public class GameView extends View implements GameObserver, Serializable {
         init(attrs, defStyle);
     }
 
-    public void setGame(Game game) {
+    public void setGame(Game game, GameActivity activity) {
         this.game = game;
         drawables.add(new GraphicMap(game.getMap(), getResources(), this));
+        magic = game.getMagic();
+
+        this.activity = activity;
+    }
+
+    public void onContinue(Game game, GameActivity activity) {
+        this.game = game;
+        this.activity = activity;
         magic = game.getMagic();
     }
 

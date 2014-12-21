@@ -3,11 +3,9 @@ package hu.bme.aut.suchtowers;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import java.io.InputStream;
 
@@ -15,7 +13,6 @@ import hu.bme.aut.suchtowers.model.Game;
 import hu.bme.aut.suchtowers.model.ObstacleGem;
 import hu.bme.aut.suchtowers.model.TowerGem;
 import hu.bme.aut.suchtowers.model.Vector;
-
 
 public class GameActivity extends Activity {
     private Game game;
@@ -31,7 +28,6 @@ public class GameActivity extends Activity {
 
     private ActionImageButton activeButton;
 
-    private TextView tvASD;
     private GameView gview;
 
     @Override
@@ -41,9 +37,9 @@ public class GameActivity extends Activity {
         InputStream map = getResources().openRawResource(R.raw.demo);
         InputStream mission = getResources().openRawResource(R.raw.demo_attack);
         game = new Game(getBaseContext(), map, mission);
-        GameView gv = (GameView)findViewById(R.id.game_view);
-        gv.setGame(game);
-        game.setObserver(gv);
+        gview = (GameView)findViewById(R.id.game_view);
+        gview.setGame(game, this);
+        game.setObserver(gview);
 
         gameThread = new Thread(new Runnable() {
             @Override
@@ -51,15 +47,12 @@ public class GameActivity extends Activity {
                 GameActivity.this.game.run();
             }
         });
-        gameThread.start(); //TODO stop thread if user left activity
+        gameThread.start();
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
-
-        tvASD = (TextView)findViewById(R.id.tvASD);
-        gview = (GameView)findViewById(R.id.game_view);
 
         initButtons();
     }
@@ -160,12 +153,14 @@ public class GameActivity extends Activity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (activeButton != null) {
                     activeButton.doAction(motionEvent.getX(), motionEvent.getY());
-
-                    tvASD.setText("TOUCHED");
                 }
                 return true;
             }
         });
+    }
+
+    public void gameEnded() {
+        //TODO
     }
 
     @Override
@@ -174,17 +169,15 @@ public class GameActivity extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    protected void onPause() {
+        super.onPause();
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        return super.onOptionsItemSelected(item);
+        outState.putSerializable("game", game);
+        //outState.putSerializable("gameView", gview);
     }
 }

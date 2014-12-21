@@ -18,6 +18,7 @@
         <Button android:text="High Scores"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             android:id="@+id/btnHighScores" />
 
         <Button android:text="About"
