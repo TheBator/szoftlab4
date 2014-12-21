@@ -1,7 +1,11 @@
 package hu.bme.aut.suchtowers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -11,7 +15,7 @@ import java.util.List;
 
 import hu.bme.aut.suchtowers.model.Enemy;
 import hu.bme.aut.suchtowers.model.Game;
-import hu.bme.aut.suchtowers.model.Observer;
+import hu.bme.aut.suchtowers.model.GameObserver;
 import hu.bme.aut.suchtowers.model.Obstacle;
 import hu.bme.aut.suchtowers.model.Projectile;
 import hu.bme.aut.suchtowers.model.Tower;
@@ -26,10 +30,12 @@ import hu.bme.aut.suchtowers.view.GraphicTower;
 /**
  * TODO: document your custom view class.
  */
-public class GameView extends View implements Observer {
+public class GameView extends View implements GameObserver {
     private List<GameDrawable> drawables = new ArrayList<GameDrawable>();
     private float density = getResources().getDisplayMetrics().density;
     private Game game;
+    private int magic;
+    private String msg = "";
 
     public GameView(Context context) {
         super(context);
@@ -48,7 +54,8 @@ public class GameView extends View implements Observer {
 
     public void setGame(Game game) {
         this.game = game;
-        drawables.add(new GraphicMap(game.getMap(), getResources()));
+        drawables.add(new GraphicMap(game.getMap(), getResources(), this));
+        magic = game.getMagic();
     }
 
     private void init(AttributeSet attrs, int defStyle) {
@@ -57,13 +64,27 @@ public class GameView extends View implements Observer {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        if (!isInEditMode()) {
+            super.onDraw(canvas);
 
-        synchronized (drawables) {
-            for (GameDrawable d : drawables) {
-                d.draw(canvas);
+            synchronized (drawables) {
+                for (GameDrawable d : drawables) {
+                    d.draw(canvas);
+                }
             }
         }
+        else {
+            Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            canvas.drawBitmap(bp, 0, 0, new Paint());
+        }
+        Paint p = new Paint();
+        p.setColor(Color.WHITE);
+        p.setTextSize(40);
+        p.setTextAlign(Paint.Align.RIGHT);
+        canvas.drawText("Magic: " + magic, getWidth() - 5, 40, p);
+        p.setTextSize(80);
+        p.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(msg, getWidth() / 2, (getHeight() - 80) / 2, p);
     }
 
     @Override
@@ -80,12 +101,14 @@ public class GameView extends View implements Observer {
 
     @Override
     public void gameLost() {
-        //TODO
+        msg = getResources().getString(R.string.game_lost);
+        drawAll();
     }
 
     @Override
     public void gameWon() {
-        //TODO
+        msg = getResources().getString(R.string.game_won);
+        drawAll();
     }
 
     @Override
@@ -104,10 +127,7 @@ public class GameView extends View implements Observer {
 
     @Override
     public void magicChanged(int amount) {
-        //TODO
-        synchronized (drawables) {
-
-        }
+        magic = amount;
     }
 
     @Override

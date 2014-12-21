@@ -43,7 +43,7 @@ public class Game {
 	/* debuggoláshoz */
 	private double speed = 1.0;
 
-	private Observer view;
+	private GameObserver view;
 
 	/**
 	 * A játék lehetséges állapotai
@@ -78,7 +78,7 @@ public class Game {
 		}
 	}
 
-    public void setObserver(Observer ob) {
+    public void setObserver(GameObserver ob) {
         view = ob;
     }
 
@@ -175,6 +175,10 @@ public class Game {
 			gaus = new Random().nextGaussian();
 		}
 	}
+
+    public int getMagic() {
+        return magic;
+    }
 
 	/**
 	 * A játék logikáját egy lépéssel előrébb viszi.

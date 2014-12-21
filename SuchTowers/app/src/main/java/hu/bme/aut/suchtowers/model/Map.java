@@ -23,7 +23,7 @@ public class Map {
 	public static double roadRadius = 2;
 
 	private HashMap<Integer, Waypoint> waypoints;
-
+    private int lastId;
 	/**
 	 * A kapott útvonalról betölti a Map-et
 	 */
@@ -46,6 +46,10 @@ public class Map {
             float x = Float.parseFloat(coords.getElementsByTagName("x").item(0).getTextContent());
             float y = Float.parseFloat(coords.getElementsByTagName("y").item(0).getTextContent());
             waypoints.put(id, new Waypoint(new Vector(x, y)));
+
+            if (lastId < id) {
+                lastId = id;
+            }
         }
 
         NodeList rts = map.getElementsByTagName("route");
@@ -125,4 +129,8 @@ public class Map {
 	public Collection<Waypoint> getWaypoints() {
 		return waypoints.values();
 	}
+
+    public Waypoint getLastWaypoint() {
+        return getWaypointByID(lastId);
+    }
 }

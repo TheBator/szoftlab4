@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Such Towers</string>
+    <string name="action_settings">Beállítások</string>
+    <string name="title_activity_map_selector">Válassz egy pályát</string>
+    <string name="new_game">Új játék</string>
+    <string name="high_scores">Toplista</string>
+    <string name="about">Névjegy</string>
+    <string name="game_won">Gratulálok! Nyertél</string>
+    <string name="game_lost">Sajnos vesztettél :(</string>
+</resources>

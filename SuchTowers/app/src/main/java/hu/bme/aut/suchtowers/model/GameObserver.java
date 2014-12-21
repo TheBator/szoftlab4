@@ -3,7 +3,7 @@ package hu.bme.aut.suchtowers.model;
 /**
  * Created by Bátor on 2014.12.20..
  */
-public interface Observer {
+public interface GameObserver {
     public void drawAll();
     public void enemyAdded(Enemy e);
     public void gameLost();

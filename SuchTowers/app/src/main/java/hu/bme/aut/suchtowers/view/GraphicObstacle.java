@@ -30,6 +30,9 @@ public class GraphicObstacle extends GameDrawable {
         this.r = r;
 		z_index = 1;
 		img = BitmapFactory.decodeResource(r, R.drawable.obstacle);
+
+        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+        img = Bitmap.createScaledBitmap(img, (int)siz.x, (int)siz.y, false);
 	}
 
 	/**
@@ -65,7 +68,7 @@ public class GraphicObstacle extends GameDrawable {
         if (o.getGem() == ObstacleGem.orange)
             color = Color.argb(100, 80, 0, 128);
 
-        //drawRangeCircle(canvas, color, (int) Game.toMouseCoords(o.getPosition()).x, (int) Game.toMouseCoords(o.getPosition()).y, range);
+        drawRangeCircle(canvas, color, (int) Game.toMouseCoords(o.getPosition()).x, (int) Game.toMouseCoords(o.getPosition()).y, range);
     }
 
 	@Override
@@ -77,12 +80,15 @@ public class GraphicObstacle extends GameDrawable {
 	 * Beállítja az akadály varázskövének megfelelően a varázskő képét.
 	 */
 	public void setGem() {
+        Vector siz = Game.toMouseCoords(new Vector(4, 4));
 		if (o.getGem() != null) {
 			if (o.getGem() == ObstacleGem.orange)
-				gemImage = BitmapFactory.decodeResource(r, R.drawable.orange_gem);// Resources.OrangeGemImage;
+				gemImage = Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(r, R.drawable.orange_gem), (int)siz.x / 2, (int)siz.y / 2, false);
 			else if (o.getGem() == ObstacleGem.yellow)
-				gemImage = BitmapFactory.decodeResource(r, R.drawable.yellow_gem);//  Resources.YellowGemImage;
-		}
+                gemImage = Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(r, R.drawable.yellow_gem), (int)siz.x / 2, (int)siz.y / 2, false);
+        }
 	}
 
 }

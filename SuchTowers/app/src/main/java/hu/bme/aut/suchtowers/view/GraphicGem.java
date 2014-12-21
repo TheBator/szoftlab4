@@ -1,6 +1,7 @@
 package hu.bme.aut.suchtowers.view;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -23,17 +24,18 @@ public class GraphicGem extends GameDrawable {
 	 */
 	public GraphicGem(Gem g, Resources r) {
 		z_index = 2;
+        Vector siz = Game.toMouseCoords(new Vector(2, 2));
 
 		if (g == TowerGem.red)
-			img = BitmapFactory.decodeResource(r, R.drawable.red_gem);
+			img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.red_gem), (int)siz.x, (int)siz.y, false);
 		else if (g == TowerGem.green)
-			img = BitmapFactory.decodeResource(r, R.drawable.green_gem);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.green_gem), (int)siz.x, (int)siz.y, false);
 		else if (g == TowerGem.blue)
-			img = BitmapFactory.decodeResource(r, R.drawable.blue_gem);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.blue_gem), (int)siz.x, (int)siz.y, false);
 		else if (g == ObstacleGem.orange)
-			img = BitmapFactory.decodeResource(r, R.drawable.orange_gem);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.orange_gem), (int)siz.x, (int)siz.y, false);
 		else if (g == ObstacleGem.yellow)
-			img = BitmapFactory.decodeResource(r, R.drawable.yellow_gem);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.yellow_gem), (int)siz.x, (int)siz.y, false);
 
 		pos = new Vector(-100, -100);
 	}
@@ -49,11 +51,6 @@ public class GraphicGem extends GameDrawable {
                      (int) mpos.x - img.getWidth() / 4,
                      (int) mpos.y - img.getHeight() / 4,
                      new Paint());
-		/*g.drawImage(img, (int) mpos.x - img.getWidth(null) / 4,
-				(int) mpos.y - img.getHeight(null) / 4,
-				img.getWidth(null) / 2,
-				img.getHeight(null) / 2,
-				null);*/
 	}
 
 	public Vector getPosition() {

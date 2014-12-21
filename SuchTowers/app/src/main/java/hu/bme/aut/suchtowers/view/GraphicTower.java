@@ -29,7 +29,8 @@ public class GraphicTower extends GameDrawable {
 		this.t = t;
         this.r = r;
 		z_index = 2;
-		img = BitmapFactory.decodeResource(r, R.drawable.tower);
+        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+		img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.tower), (int)siz.x, (int)siz.y, false);
 	}
 
 	/**
@@ -48,6 +49,7 @@ public class GraphicTower extends GameDrawable {
             canvas.drawBitmap(gemImage,
                     Game.toMouseCoords(t.getPosition()).x - img.getWidth() / 2 + img.getWidth() / 2,
                     Game.toMouseCoords(t.getPosition()).y - img.getHeight() / 2, paint);
+            //gemImage.draw(canvas);
         }
 
         int range = (int) Game.toMouseCoords(new Vector(t.getRange(), 0)).x;
@@ -63,7 +65,7 @@ public class GraphicTower extends GameDrawable {
         if (t.getGem() == TowerGem.blue)
             color = Color.argb(100, 0, 0, 255);
 
-        //drawRangeCircle(canvas, color, (int) Game.toMouseCoords(t.getPosition()).x, (int) Game.toMouseCoords(t.getPosition()).y, range);
+        drawRangeCircle(canvas, color, (int) Game.toMouseCoords(t.getPosition()).x, (int) Game.toMouseCoords(t.getPosition()).y, range);
     }
 
 	@Override
@@ -75,13 +77,17 @@ public class GraphicTower extends GameDrawable {
 	 * Beállítja a megfelelő kirajzolandó képet, mikor a tornyon lévő varázskő megváltozik.
 	 */
 	public void setGem() {
-		if (t.getGem() != null) {
-			if (t.getGem() == TowerGem.red)
-				gemImage = BitmapFactory.decodeResource(r, R.drawable.red_gem);
-			else if (t.getGem() == TowerGem.green)
-				gemImage = BitmapFactory.decodeResource(r, R.drawable.green_gem);
-			else if (t.getGem() == TowerGem.blue)
-				gemImage = BitmapFactory.decodeResource(r, R.drawable.blue_gem);
-		}
+        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+        if (t.getGem() != null) {
+            if (t.getGem() == TowerGem.red)
+                gemImage = Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(r, R.drawable.red_gem), (int)(siz.x/2), (int)(siz.y/2), false);
+            else if (t.getGem() == TowerGem.green)
+                gemImage = Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(r, R.drawable.green_gem), (int)(siz.x/2), (int)(siz.y/2), false);
+            else if (t.getGem() == TowerGem.blue)
+                gemImage = Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(r, R.drawable.blue_gem), (int)(siz.x/2), (int)(siz.y/2), false);
+        }
 	}
 }

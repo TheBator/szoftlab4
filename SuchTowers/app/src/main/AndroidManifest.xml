@@ -23,7 +23,8 @@
         <activity
             android:name="hu.bme.aut.suchtowers.GameActivity"
             android:label="@string/title_activity_game"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" >
         </activity>
     </application>
 

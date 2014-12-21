@@ -1,6 +1,7 @@
 package hu.bme.aut.suchtowers.view;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -9,6 +10,7 @@ import hu.bme.aut.suchtowers.R;
 import hu.bme.aut.suchtowers.model.Enemy;
 import hu.bme.aut.suchtowers.model.EnemyType;
 import hu.bme.aut.suchtowers.model.Game;
+import hu.bme.aut.suchtowers.model.Vector;
 
 /**
  * Az ellenségek kirajzolásáért felelős Drawable.
@@ -24,15 +26,16 @@ public class GraphicEnemy extends GameDrawable {
 	public GraphicEnemy(Enemy e, Resources r) {
 		this.e = e;
 		z_index = 3;
+        Vector siz = Game.toMouseCoords(new Vector(2, 2));
 
 		if (e.getEnemyType() == EnemyType.human)
-            img = BitmapFactory.decodeResource(r, R.drawable.human);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.human), (int)siz.x, (int)siz.y, false);
 		else if (e.getEnemyType() == EnemyType.dwarf)
-            img = BitmapFactory.decodeResource(r, R.drawable.dwarf);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.dwarf), (int)siz.x, (int)siz.y, false);
 		else if (e.getEnemyType() == EnemyType.elf)
-            img = BitmapFactory.decodeResource(r, R.drawable.elf);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.elf), (int)siz.x, (int)siz.y, false);
 		else if (e.getEnemyType() == EnemyType.hobbit)
-            img = BitmapFactory.decodeResource(r, R.drawable.hobbit);
+            img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.hobbit), (int)siz.x, (int)siz.y, false);
 	}
 
 	/**

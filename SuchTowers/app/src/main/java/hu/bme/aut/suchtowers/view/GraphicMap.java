@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.View;
 
 import hu.bme.aut.suchtowers.R;
 import hu.bme.aut.suchtowers.model.Game;
@@ -22,19 +23,27 @@ public class GraphicMap extends GameDrawable {
 	private Bitmap mountains;
     private int width = (int)Game.toMouseCoords(new Vector(2, 2)).x;
     private Paint paint = new Paint();
+    private Vector last;
 
 	/**
 	 * Konstruktor mely hozzárendel egy map objektumot, és beállítja a háttérképeket.
 	 */
-	public GraphicMap(Map m, Resources r) {
+	public GraphicMap(Map m, Resources r, View v) {
 		this.m = m;
 		z_index = 0;
 
 		img = BitmapFactory.decodeResource(r, R.drawable.background);
-		mountains = BitmapFactory.decodeResource(r, R.drawable.saurontower);
+		mountains = BitmapFactory.decodeResource(r, R.drawable.sauron);
+        Vector s = Game.toMouseCoords(new Vector(4, 4));
+        mountains = Bitmap.createScaledBitmap(mountains, mountains.getWidth() / 2, mountains.getHeight() / 2, false);
 
+        Vector siz = Game.toMouseCoords(new Vector(80, 60));
         paint.setColor(Color.argb(255, 85, 34, 0));
         paint.setStrokeWidth(width * 2);
+
+        last = Game.toMouseCoords(m.getLastWaypoint().getPosition());
+        last.x -= mountains.getWidth() / 2;
+        last.y -= mountains.getHeight();
 	}
 
 	/**
@@ -53,7 +62,7 @@ public class GraphicMap extends GameDrawable {
             }
             canvas.drawCircle(start_pos.x, start_pos.y, width, paint);
         }
-        canvas.drawBitmap(mountains, 0, 0, paint);
+        canvas.drawBitmap(mountains, last.x, last.y, paint);
     }
 
 	@Override

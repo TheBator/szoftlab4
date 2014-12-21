@@ -3,6 +3,7 @@ package hu.bme.aut.suchtowers.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 /**
  * A játéktérre kirajzolható objektumok közös absztrakt ősosztálya.
@@ -31,44 +32,35 @@ public abstract class GameDrawable implements Comparable<GameDrawable> {
 		return other.z_index - this.z_index;
 	}
 
-	/**
-	 * Statikus segédmetódus az épületek hatósugarát jelző kör kirajzolásához.
-	 *
-	 * @param c      A Graphics példány, amire rajzolunk.
-	 * @param color  A rajzolandó kör színe.
-	 * @param x      A kör középpontjának vízszintes koordinátája.
-	 * @param y      A kör középpontjának függőleges koordinátája.
-	 * @param radius A kör sugara.
-	 */
-	public static void drawRangeCircle(Canvas c, Color color, int x, int y, int radius) {
-		/*if (Game.AA) {
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		}
+    /**
+     * Statikus segédmetódus az épületek hatósugarát jelző kör kirajzolásához.
+     *
+     * @param canvas A Graphics példány, amire rajzolunk.
+     * @param color  A rajzolandó kör színe.
+     * @param x      A kör középpontjának vízszintes koordinátája.
+     * @param y      A kör középpontjának függőleges koordinátája.
+     * @param radius A kör sugara.
+     */
+    public static void drawRangeCircle(Canvas canvas, int color, int x, int y, int radius) {
+        Paint paint = new Paint();
 
-		g.setStroke(new BasicStroke(4));
+        paint.setStrokeWidth(4);
+        paint.setStyle(Paint.Style.STROKE);
 
-		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 80);
-		g.setColor(color);
+        color = Color.argb(80, Color.red(color), Color.green(color), Color.blue(color));
+        paint.setColor(color);
 
-		g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
+        canvas.drawCircle(x, y, radius, paint);
+        //g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
 
-		g.setColor(new Color(0, 0, 0, 70));
+        paint.setColor(Color.argb(70, 0, 0, 0));
+        paint.setStrokeWidth(2);
 
-		g.setStroke(new BasicStroke(2));
-		radius += 2;
-		g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
-		radius -= 4;
-		g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
-
-		if (Game.AA) {
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_OFF);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-		}*/
-
-	}
+        radius += 2;
+        //g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
+        canvas.drawCircle(x, y, radius, paint);
+        radius -= 4;
+        //g.drawOval(x - radius, y - radius, radius * 2, radius * 2);
+        canvas.drawCircle(x, y, radius, paint);
+    }
 }
