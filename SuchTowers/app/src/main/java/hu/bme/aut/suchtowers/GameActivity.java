@@ -1,6 +1,7 @@
 package hu.bme.aut.suchtowers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -34,8 +35,14 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        InputStream map = getResources().openRawResource(R.raw.demo);
-        InputStream mission = getResources().openRawResource(R.raw.demo_attack);
+        Intent it = getIntent();
+        Bundle b = it.getExtras();
+        int mapId = b.getInt("MAP_ID");
+        int missionId = b.getInt("MISSION_ID");
+
+        InputStream map = getResources().openRawResource(mapId);
+        InputStream mission = getResources().openRawResource(missionId);
+
         game = new Game(getBaseContext(), map, mission);
         gview = (GameView)findViewById(R.id.game_view);
         gview.setGame(game, this);
