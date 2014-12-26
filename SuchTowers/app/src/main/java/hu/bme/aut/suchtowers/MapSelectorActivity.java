@@ -48,7 +48,7 @@ public class MapSelectorActivity extends Activity {
             GameData d = new GameData();
             d.name = e.getKey();
             d.map = e.getValue();
-            d.mission = missions.get(d.name);
+            d.mission = missions.get(e.getKey());
 
             rtn.add(d);
         }

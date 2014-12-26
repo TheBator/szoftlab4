@@ -50,10 +50,10 @@ public class Game implements Serializable {
 	 * A játék lehetséges állapotai
 	 */
 	enum State {
-		RUNNING, PAUSED, WIN, LOSE
+		RUNNING, PAUSED, WIN, LOSE, STOPPED
 	}
 
-	State gameState = State.RUNNING;
+	volatile State gameState = State.RUNNING;
 
 	/**
 	 * A játék konstruktora, betölt egy pályát és egy missziót
@@ -79,8 +79,37 @@ public class Game implements Serializable {
 		}
 	}
 
+    public void pause() {
+        gameState = State.PAUSED;
+    }
+
+    public void cont() {
+        if (gameState == State.PAUSED || gameState == State.STOPPED)
+            gameState = State.RUNNING;
+    }
+
+    public void stop() {
+        gameState = State.STOPPED;
+    }
+
     public void setObserver(GameObserver ob) {
         view = ob;
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public List<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public List<Tower> getTowers() {
+        return towers;
     }
 
     public Map getMap() {

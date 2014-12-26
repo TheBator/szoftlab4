@@ -3,6 +3,7 @@ package hu.bme.aut.suchtowers;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,8 +11,12 @@ import android.view.View.OnClickListener;
 
 import java.io.InputStream;
 
+import hu.bme.aut.suchtowers.model.Enemy;
 import hu.bme.aut.suchtowers.model.Game;
+import hu.bme.aut.suchtowers.model.Obstacle;
 import hu.bme.aut.suchtowers.model.ObstacleGem;
+import hu.bme.aut.suchtowers.model.Projectile;
+import hu.bme.aut.suchtowers.model.Tower;
 import hu.bme.aut.suchtowers.model.TowerGem;
 import hu.bme.aut.suchtowers.model.Vector;
 
@@ -35,17 +40,26 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        Intent it = getIntent();
-        Bundle b = it.getExtras();
-        int mapId = b.getInt("MAP_ID");
-        int missionId = b.getInt("MISSION_ID");
+        gview = (GameView) findViewById(R.id.game_view);
+        if (savedInstanceState == null) {
+            Intent it = getIntent();
+            Bundle b = it.getExtras();
+            int mapId = b.getInt("MAP_ID");
+            int missionId = b.getInt("MISSION_ID");
 
-        InputStream map = getResources().openRawResource(mapId);
-        InputStream mission = getResources().openRawResource(missionId);
+            InputStream map = getResources().openRawResource(mapId);
+            InputStream mission = getResources().openRawResource(missionId);
+            startNew(map, mission);
+        }
+        else {
+            continueFromSavedState((Game)savedInstanceState.getSerializable("game"));
+            Integer i = (Integer)savedInstanceState.getSerializable("test");
+            Game g = (Game)savedInstanceState.getSerializable("game");
+            game = g;
+            Log.d("continued", i + "");
+            Log.d("continued_game", g.getEnemies().size() + "");
+        }
 
-        game = new Game(getBaseContext(), map, mission);
-        gview = (GameView)findViewById(R.id.game_view);
-        gview.setGame(game, this);
         game.setObserver(gview);
 
         gameThread = new Thread(new Runnable() {
@@ -58,10 +72,35 @@ public class GameActivity extends Activity {
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
 
         initButtons();
+    }
+
+    private void startNew(InputStream map, InputStream mission) {
+        game = new Game(getBaseContext(), map, mission);
+        gview.setGame(game, this);
+    }
+
+    private void continueFromSavedState(Game game) {
+        this.game = game;
+        gview.setGame(game, this);
+
+        for (Enemy e : game.getEnemies()) {
+            gview.enemyAdded(e);
+        }
+        for (Tower t : game.getTowers()) {
+            gview.towerAdded(t);
+        }
+        for (Obstacle o : game.getObstacles()) {
+            gview.obstacleAdded(o);
+        }
+        for (Projectile p : game.getProjectiles()) {
+            gview.projectileAdded(p);
+        }
+
+        game.cont();
     }
 
     private void initButtons() {
@@ -178,6 +217,8 @@ public class GameActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        game.stop();
+        gameThread = null;
     }
 
     @Override
@@ -185,6 +226,6 @@ public class GameActivity extends Activity {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable("game", game);
-        //outState.putSerializable("gameView", gview);
+        outState.putSerializable("test", 42);
     }
 }
