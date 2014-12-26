@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.SurfaceView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import hu.bme.aut.suchtowers.view.GraphicTower;
 /**
  * TODO: document your custom view class.
  */
-public class GameView extends View implements GameObserver, Serializable {
+public class GameView extends SurfaceView implements GameObserver, Serializable {
     private List<GameDrawable> drawables = new ArrayList<GameDrawable>();
     private float density = getResources().getDisplayMetrics().density;
     private transient Game game;
@@ -69,11 +69,12 @@ public class GameView extends View implements GameObserver, Serializable {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-
+        setWillNotDraw(false);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas = getHolder().lockCanvas();
         if (!isInEditMode()) {
             super.onDraw(canvas);
 
@@ -95,6 +96,8 @@ public class GameView extends View implements GameObserver, Serializable {
         p.setTextSize(80);
         p.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(msg, getWidth() / 2, (getHeight() - 80) / 2, p);
+
+        getHolder().unlockCanvasAndPost(canvas);
     }
 
     @Override
