@@ -2,7 +2,12 @@ package hu.bme.aut.suchtowers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import hu.bme.aut.suchtowers.model.Enemy;
+import hu.bme.aut.suchtowers.model.Fog;
 import hu.bme.aut.suchtowers.model.Game;
 import hu.bme.aut.suchtowers.model.Obstacle;
 import hu.bme.aut.suchtowers.model.ObstacleGem;
@@ -23,7 +29,7 @@ import hu.bme.aut.suchtowers.model.Vector;
 import hu.bme.aut.suchtowers.view.GraphicFog;
 import hu.bme.aut.suchtowers.view.GraphicMap;
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements SensorEventListener {
     private Game game;
     private Thread gameThread;
 
@@ -34,12 +40,12 @@ public class GameActivity extends Activity {
     private ActionImageButton btnBlueGem;
     private ActionImageButton btnYellowGem;
     private ActionImageButton btnOrangeGem;
-
     private ActionImageButton activeButton;
 
     private GameView gview;
     private Timer t = new Timer();
-
+    private Sensor accSensor;
+    private SensorManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +81,27 @@ public class GameActivity extends Activity {
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
 
+        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         initButtons();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Fog.setFogStateChangedListener(new Fog.FogStateChangedListener() {
+            @Override
+            public void stateChanged(boolean isSet) {
+                if (isSet)
+                    sm.registerListener(GameActivity.this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+                else
+                    sm.unregisterListener(GameActivity.this);
+            }
+        });
     }
 
     private void startNew(InputStream map, InputStream mission) {
@@ -241,6 +264,8 @@ public class GameActivity extends Activity {
         gameThread = null;
         t.cancel();
         t.purge();
+        sm.unregisterListener(this);
+        Fog.removeListener();
     }
 
     @Override
@@ -248,5 +273,35 @@ public class GameActivity extends Activity {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable("game", game);
+    }
+
+    private float ox, oy, oz;
+    private long dt;
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.equals(accSensor)) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            dt = 1;
+            float dx, dy, dz;
+
+            dx = Math.abs((ox - x)/dt);
+            dy = Math.abs((oy - y)/dt);
+            dz = Math.abs((oz - z)/dt);
+            ox = x;
+            oy = y;
+            oz = z;
+            if (Math.sqrt(dx * dx + dy * dy + dz * dz) > 45) {
+                Log.d("AccSensor", "Fog set false");
+                Fog.setFog(false);
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 }

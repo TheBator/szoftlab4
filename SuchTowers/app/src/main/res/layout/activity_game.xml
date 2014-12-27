@@ -83,7 +83,7 @@
                 android:scaleType="fitCenter"
                 android:text="||"
                 android:textAlignment="center"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:textSize="30dp"
                 android:id="@+id/btnPause"
                 android:background="@android:drawable/btn_default"/>

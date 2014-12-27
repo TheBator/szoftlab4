@@ -7,7 +7,11 @@ package hu.bme.aut.suchtowers.model;
  * @author Tallér Bátor
  */
 public class Fog {
+    public static interface FogStateChangedListener {
+        public void stateChanged(boolean isSet);
+    }
 	private static boolean isSet = false;
+    private static FogStateChangedListener listener;
 
 	/**
 	 * Attól függően, hogy be van-e kapcsolva a köd,
@@ -21,14 +25,30 @@ public class Fog {
 	}
 
 	public static void setFog(boolean fog) {
-		isSet = fog;
+        if (isSet != fog) {
+            isSet = fog;
+            if (listener != null) {
+                listener.stateChanged(isSet);
+            }
+        }
 	}
 
 	public static void toggle() {
 		isSet = !isSet;
+        if (listener != null) {
+            listener.stateChanged(isSet);
+        }
 	}
 
 	public static boolean isSet() {
 		return isSet;
 	}
+
+    public static void setFogStateChangedListener(FogStateChangedListener lst) {
+        listener = lst;
+    }
+
+    public static void removeListener() {
+        listener = null;
+    }
 }

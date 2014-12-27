@@ -143,7 +143,7 @@ public class Game implements Serializable {
 				secs = gaus * 5.0 + 10.0;
 			}
 		} else {
-			secs = gaus * 13.0 + 40.0;
+			secs = gaus * 13.0 + 40;
 			while ((int) secs == 0) {
 				gaus = new Random().nextGaussian();
 				secs = gaus * 13.0 + 40.0;
@@ -310,7 +310,7 @@ public class Game implements Serializable {
 	 */
 	public boolean buildObstacle(Vector pos) {
         Vector d = map.canBuildObstacle(pos);
-		if (d != null && !collidesWithObstacle(pos, Obstacle.range) && magic >= Obstacle.cost) {
+		if (d != null && !collidesWithObstacle(pos, Obstacle.range) && coordInRange(pos) && magic >= Obstacle.cost) {
 			pos.add(d);
             Obstacle o = new Obstacle(pos);
 			synchronized (obstacles) {
@@ -326,6 +326,10 @@ public class Game implements Serializable {
 		return false;
 	}
 
+    public boolean coordInRange(Vector p) {
+        return p.x > 0 && p.x < 16 && p.y > 0 && p.y < 9;
+    }
+
 	/**
 	 * A megadott helyre épít egy tornyot
 	 * Ellenőrzi, hogy a megadott helyre a pályán lehet-e tornyot építeni,
@@ -335,7 +339,7 @@ public class Game implements Serializable {
 	 * @return Épített-e oda tornyot
 	 */
 	public boolean buildTower(Vector pos) {
-		if (map.canBuildTower(pos) && !collidesWithTower(pos) && magic >= Tower.cost) {
+		if (map.canBuildTower(pos) && !collidesWithTower(pos) && coordInRange(pos) && magic >= Tower.cost) {
 			Tower t = new Tower(pos);
 			synchronized (towers) {
 				towers.add(t);
