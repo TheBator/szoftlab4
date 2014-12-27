@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
 
 import hu.bme.aut.suchtowers.R;
@@ -40,7 +39,6 @@ public class GraphicMap extends GameDrawable {
         Vector siz = new Vector((float)mountains.getWidth() / v.getWidth(), (float)mountains.getHeight() / v.getHeight());
 
         Vector s = Game.toMouseCoords(3.5f, 3.5f);
-        Log.d("GraphicMap", "x:" + s.x + ",y:" + s.y);
         mountains = scaleBitmap(mountains, (int)s.x, (int)s.y);
 
         paint.setColor(Color.argb(255, 85, 34, 0));

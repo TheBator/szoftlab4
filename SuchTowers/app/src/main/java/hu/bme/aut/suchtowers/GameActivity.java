@@ -7,7 +7,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -249,12 +248,10 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     public void gameEnded() {
-        Log.d("GameActivity", "Game ended");
         gview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 GameActivity.this.finish();
-                Log.d("GameActivity", "clicked");
             }
         });
     }
@@ -301,7 +298,6 @@ public class GameActivity extends Activity implements SensorEventListener {
             oy = y;
             oz = z;
             if (Math.sqrt(dx * dx + dy * dy + dz * dz) > 45) {
-                Log.d("AccSensor", "Fog set false");
                 Fog.setFog(false);
             }
         }

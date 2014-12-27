@@ -1,7 +1,6 @@
 package hu.bme.aut.suchtowers.model;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -428,9 +427,6 @@ public class Game implements Serializable {
 
         Game.height = nh;
         Game.width = nw;
-
-        Log.d("new_height", nh + "");
-        Log.d("new_width", nw + "");
     }
 
 	/**

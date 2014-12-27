@@ -2,7 +2,6 @@ package hu.bme.aut.suchtowers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class MapListAdapter extends ArrayAdapter<GameData> {
                     it.putExtra("MAP_ID", o.map);
                     it.putExtra("MISSION_ID", o.mission);
                     getContext().startActivity(it);
-                    Log.d("map started", "sad");
                 }
             });
 
