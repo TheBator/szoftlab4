@@ -11,5 +11,6 @@
     <string name="game_won">Congratulations! You\'ve won!</string>
     <string name="game_lost">You lost!</string>
     <string name="magic">Magic</string>
+    <string name="about_text">tallerbator@gmail.com</string>
 
 </resources>

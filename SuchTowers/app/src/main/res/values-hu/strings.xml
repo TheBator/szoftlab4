@@ -9,4 +9,5 @@
     <string name="game_won">Gratulálok! Nyertél</string>
     <string name="game_lost">Sajnos vesztettél :(</string>
     <string name="magic">Varázserő</string>
+    <string name="about_text">tallerbator@gmail.com</string>
 </resources>

@@ -11,8 +11,8 @@
 	<waypoint>
 		<id>2</id>
 		<coords>
-			<x>100</x>
-			<y>100</y>
+			<x>15</x>
+			<y>15</y>
 		</coords>
 	</waypoint>
 	<route>

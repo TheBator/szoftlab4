@@ -31,10 +31,10 @@ public class MapListAdapter extends ArrayAdapter<GameData> {
             TextView tt = (TextView) v.findViewById(R.id.toptext);
             TextView bt = (TextView) v.findViewById(R.id.bottomtext);
             if (tt != null) {
-                tt.setText("Name: " + o.name);
+                tt.setText(o.name);
             }
             if(bt != null){
-                bt.setText("Id: " + o.map);
+                bt.setText("");
             }
 
             final Context cont = getContext().getApplicationContext();
