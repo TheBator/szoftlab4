@@ -75,7 +75,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 if (!game.runOne())
                     this.cancel();
             }
-        }, 0, 1000 / Game.FPS);
+        }, 500, 1000 / Game.FPS);
 
 
         View decorView = getWindow().getDecorView();
