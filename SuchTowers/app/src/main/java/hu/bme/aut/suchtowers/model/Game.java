@@ -1,6 +1,7 @@
 package hu.bme.aut.suchtowers.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -117,11 +118,11 @@ public class Game implements Serializable {
 
         if (gameState == State.LOSE) {
             view.gameLost();
-
+            Log.d("Game", "GameLost");
             return false;
         } else if (gameState == State.WIN) {
             view.gameWon();
-
+            Log.d("Game", "GameWon");
             return false;
         }
 

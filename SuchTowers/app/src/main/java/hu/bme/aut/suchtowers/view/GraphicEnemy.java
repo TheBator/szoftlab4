@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 import hu.bme.aut.suchtowers.R;
 import hu.bme.aut.suchtowers.model.Enemy;
@@ -28,7 +27,7 @@ public class GraphicEnemy extends GameDrawable {
 		this.e = e;
 		z_index = 3;
         Vector siz = Game.toMouseCoords(0.33f, 0.33f);
-        Log.d("GraphicEnemy", siz.x + "," + siz.y);
+
 		if (e.getEnemyType() == EnemyType.human)
             img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.human), (int)siz.x, (int)siz.y, false);
 		else if (e.getEnemyType() == EnemyType.dwarf)

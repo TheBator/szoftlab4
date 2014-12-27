@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getBaseContext(), getResources().getText(R.string.about_text), Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.about_text), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -248,6 +249,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     public void gameEnded() {
+        t.cancel();
         gview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
