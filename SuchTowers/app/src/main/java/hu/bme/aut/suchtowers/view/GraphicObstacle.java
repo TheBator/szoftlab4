@@ -31,7 +31,7 @@ public class GraphicObstacle extends GameDrawable {
 		z_index = 1;
 		img = BitmapFactory.decodeResource(r, R.drawable.obstacle);
 
-        Vector siz = Game.toMouseCoords(new Vector(0.67f, 0.67f));
+        Vector siz = Game.toMouseCoords(0.67f, 0.67f);
         img = Bitmap.createScaledBitmap(img, (int)siz.x, (int)siz.y, false);
 	}
 
@@ -44,13 +44,10 @@ public class GraphicObstacle extends GameDrawable {
 	 */
     @Override
     public void draw(Canvas canvas) {
-		/*g.drawImage(img, (int) Game.toMouseCoords(o.getPosition()).x - img.getWidth(null) / 2,
-				(int) Game.toMouseCoords(o.getPosition()).y - img.getHeight(null) / 2, null);*/
         canvas.drawBitmap(img, Game.toMouseCoords(o.getPosition()).x - img.getWidth() / 2,
                 Game.toMouseCoords(o.getPosition()).y - img.getHeight() / 2, p);
 
 
-        /* TODO: convert to android */
         if (gemImage != null) {
             canvas.drawBitmap(gemImage,
                     Game.toMouseCoords(o.getPosition()).x - img.getWidth() / 2 + img.getWidth() / 2,
@@ -80,7 +77,7 @@ public class GraphicObstacle extends GameDrawable {
 	 * Beállítja az akadály varázskövének megfelelően a varázskő képét.
 	 */
 	public void setGem() {
-        Vector siz = Game.toMouseCoords(new Vector(0.67f, 0.67f));
+        Vector siz = Game.toMouseCoords(0.67f, 0.67f);
 		if (o.getGem() != null) {
 			if (o.getGem() == ObstacleGem.orange)
 				gemImage = Bitmap.createScaledBitmap(

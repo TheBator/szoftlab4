@@ -24,7 +24,7 @@ public class Vector implements Serializable {
 	/**
 	 * @param v A kapott vektort hozzáadja.
 	 */
-	public void Add(Vector v) {
+	public void add(Vector v) {
 		x += v.x;
 		y += v.y;
 	}
@@ -36,6 +36,12 @@ public class Vector implements Serializable {
 		return (float)Math.sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
 	}
 
+    /**
+     * @return Visszatér a vektor hosszával
+     */
+    public float length() {
+        return (float)Math.sqrt(x * x + y * y);
+    }
 	/**
 	 * A kapott vektor felé elmozdul kapott távolsággal.
 	 *
@@ -57,7 +63,7 @@ public class Vector implements Serializable {
 			vTemp.x *= distance;
 			vTemp.y *= distance;
 
-			this.Add(vTemp);
+			this.add(vTemp);
 		}
 	}
 

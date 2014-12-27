@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import hu.bme.aut.suchtowers.model.Enemy;
 import hu.bme.aut.suchtowers.model.Game;
@@ -18,6 +20,7 @@ import hu.bme.aut.suchtowers.model.Projectile;
 import hu.bme.aut.suchtowers.model.Tower;
 import hu.bme.aut.suchtowers.model.TowerGem;
 import hu.bme.aut.suchtowers.model.Vector;
+import hu.bme.aut.suchtowers.view.GraphicFog;
 import hu.bme.aut.suchtowers.view.GraphicMap;
 
 public class GameActivity extends Activity {
@@ -35,6 +38,8 @@ public class GameActivity extends Activity {
     private ActionImageButton activeButton;
 
     private GameView gview;
+    private Timer t = new Timer();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +64,14 @@ public class GameActivity extends Activity {
 
         game.setObserver(gview);
 
-        gameThread = new Thread(new Runnable() {
+        t.schedule(new TimerTask() {
             @Override
             public void run() {
-                GameActivity.this.game.run();
+                if (!game.runOne())
+                    this.cancel();
             }
-        });
-        gameThread.start();
+        }, 0, 1000 / Game.FPS);
+
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
@@ -84,6 +90,7 @@ public class GameActivity extends Activity {
             @Override
             public void run() {
                 gview.addDrawable(new GraphicMap(game.getMap(), getResources(), gview));
+                gview.addDrawable(new GraphicFog(gview.getContext()));
             }
         });
     }
@@ -109,6 +116,7 @@ public class GameActivity extends Activity {
                 }
 
                 gview.addDrawable(new GraphicMap(game.getMap(), getResources(), gview));
+                gview.addDrawable(new GraphicFog(gview.getContext()));
             }
         });
 
@@ -231,6 +239,8 @@ public class GameActivity extends Activity {
         super.onPause();
         game.stop();
         gameThread = null;
+        t.cancel();
+        t.purge();
     }
 
     @Override
@@ -238,6 +248,5 @@ public class GameActivity extends Activity {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable("game", game);
-        outState.putSerializable("test", 42);
     }
 }

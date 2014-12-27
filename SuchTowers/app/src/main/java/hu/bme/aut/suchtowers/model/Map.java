@@ -18,8 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  *
  */
 public class Map implements Serializable {
-
-	public static float roadRadius = 0.5f;
+	public static float roadRadius = 0.33f;
 
 	private HashMap<Integer, Waypoint> waypoints;
     private int lastId;
@@ -75,44 +74,46 @@ public class Map implements Serializable {
 	 * @param p  A pont, aminek a távolsága érdekes.
 	 * @return A pontnak a szakasztól mért távolsága.
 	 */
-	private double segmentPointDistance(Vector s1, Vector s2, Vector p) {
-		double px = s2.x - s1.x;
-		double py = s2.y - s1.y;
+	private Vector segmentPointDistance(Vector s1, Vector s2, Vector p) {
+		float px = s2.x - s1.x;
+        float py = s2.y - s1.y;
 
-		double lenSquared = px * px + py * py;
+        float lenSquared = px * px + py * py;
 
-		double u = ((p.x - s1.x) * px + (p.y - s1.y) * py) / lenSquared;
+        float u = ((p.x - s1.x) * px + (p.y - s1.y) * py) / lenSquared;
 		u = Math.max(Math.min(u, 1), 0);
 
-		double dx = s1.x + u * px - p.x;
-		double dy = s1.y + u * py - p.y;
+        float dx = s1.x + u * px - p.x;
+        float dy = s1.y + u * py - p.y;
 
-		return Math.sqrt(dx * dx + dy * dy);
+		return new Vector(dx, dy);
 	}
 
-	private boolean isInRoadRange(Vector pos, double range) {
+	private Vector isInRoadRange(Vector pos, double range) {
 		for (Waypoint wpfrom : waypoints.values()) {
 			for (Waypoint wpto : wpfrom.listNextWaypoints()) {
-				if (segmentPointDistance(wpfrom.getPosition(), wpto.getPosition(), pos) < range) {
-					return true;
+                Vector dist = segmentPointDistance(wpfrom.getPosition(), wpto.getPosition(), pos);
+				if (dist.length() < range) {
+					return dist;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	/**
-	 * @return Lehet-e az adott helyre Obstacle-t építeni.
+	 * @return Az úttól való távolsággal tér vissza ha lehet oda építeni akadályt, null egyébként
 	 */
-	public boolean canBuildObstacle(Vector position) {
+	public Vector canBuildObstacle(Vector position) {
 		return isInRoadRange(position, roadRadius);
 	}
 
 	/**
-	 * @return Lehet-e a vector helyére Tower-t építeni.
+	 * @return Lehet-e a vektor helyére Tower-t építeni.
 	 */
 	public boolean canBuildTower(Vector position) {
-		return !isInRoadRange(position, roadRadius + Tower.radius);
+        Vector v = isInRoadRange(position, roadRadius + Tower.radius);
+		return v == null;
 	}
 
 	/**

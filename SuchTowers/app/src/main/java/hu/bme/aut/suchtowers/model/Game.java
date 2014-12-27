@@ -21,7 +21,7 @@ import java.util.Random;
  * @author Török Attila
  */
 public class Game implements Serializable {
-	public static final int FPS = 60;
+	public static final int FPS = 30;
 	private Map map = null;
 	private Mission mission = null;
 	private final List<Enemy> enemies = new ArrayList<Enemy>();
@@ -29,21 +29,7 @@ public class Game implements Serializable {
 	private final List<Obstacle> obstacles = new ArrayList<Obstacle>();
 	private final List<Tower> towers = new ArrayList<Tower>();
 	private int magic = 4200;
-	/**
-	 * Antialiasing bekapcsolása
-	 */
-	public static boolean AA = false;
-	/**
-	 * FPS számláló megjelenítésének bekapcsolása
-	 */
-	public static boolean countFPS = false;
-	/**
-	 * Ez tárolja a tényleges FPS-t
-	 */
-	public double realFPS;
 	private long tick = 0;
-	/* debuggoláshoz */
-	private double speed = 1.0;
 
 	private transient GameObserver view;
 
@@ -66,12 +52,7 @@ public class Game implements Serializable {
 		try {
 			map = new Map(mapStream);
 			mission = new Mission(missionStream, map);
-		//	view = new View(this, map);
-		//	view.magicChange(magic);
-		//	view.addDrawable(new GraphicFog());
-			if (countFPS) {
-				//initFPScounter();
-			}
+
 			Fog.setFog(false);
 			Tower.comeatmebro = false;
 
@@ -117,68 +98,36 @@ public class Game implements Serializable {
         return map;
     }
 
-	/**
-	 * Inicializája a vizuális FPS számlálót
-	 * Az FPS számláló a képernyő jobb felső sarkában látható
-	 */
-	/*private void initFPScounter() {
-		view.addDrawable(new Drawable() {
-			Game game;
+    /***
+     * Eggyel lépteti a játékot.
+     * @return Hamissal tér vissza ha befejeződött a játék
+     */
+    public boolean runOne() {
+        if (gameState != State.PAUSED) {
+            step();
+            setFog();
+            ++tick;
+        }
 
-			public Drawable init(Game g) {
-				z_index = 10;
-				game = g;
-				return this;
-			}
+        view.drawAll();
 
-			public void draw(Canvas v) {
-				g.setColor(Color.white);
-				g.setFont(new Font("Consolas", Font.BOLD, 36));
-				g.drawString("" + (int) (game.realFPS), 750, 30);
-			}
-		}.init(this));
-		view.magicChange(magic);
-	}*/
+        if (gameState != State.PAUSED && !mission.hasEnemy() && enemies.isEmpty()) {
+            gameState = State.WIN;
 
-	/**
-	 * A játék főciklusa, a játék állapotától függően lépteti a játékot és kirajzolja azt.
-	 */
-	public void run() {
-		int i = 1;
-		double stime = System.nanoTime();
-		while (gameState == State.RUNNING || gameState == State.PAUSED) {
-			if (gameState != State.PAUSED) {
-				step();
-				setFog();
-				++tick;
-			}
-			view.drawAll();
-			try {
-				Thread.sleep((int) (1000 / (FPS * speed)));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+        }
 
-			// FPS számlálás, 15 darab minta átlagát veszi
-			if (++i % 15 == 0) {
-				double etime = System.nanoTime();
-				realFPS = (1000000000.0 / ((etime - stime) / 15));
-				stime = System.nanoTime();
-				i = 0;
-			}
+        if (gameState == State.LOSE) {
+            view.gameLost();
 
-			if (gameState != State.PAUSED && !mission.hasEnemy() && enemies.isEmpty()) {
-				gameState = State.WIN;
+            return false;
+        } else if (gameState == State.WIN) {
+            view.gameWon();
 
-			}
-		}
+            return false;
+        }
 
-		if (gameState == State.LOSE) {
-			view.gameLost();
-		} else if (gameState == State.WIN) {
-			view.gameWon();
-		}
-	}
+        return true;
+    }
 
 	private double gaus = new Random().nextGaussian();
 
@@ -360,8 +309,10 @@ public class Game implements Serializable {
 	 * @return Épített-e oda akadályt
 	 */
 	public boolean buildObstacle(Vector pos) {
-		if (map.canBuildObstacle(pos) && !collidesWithObstacle(pos, Obstacle.range) && magic >= Obstacle.cost) {
-			Obstacle o = new Obstacle(pos);
+        Vector d = map.canBuildObstacle(pos);
+		if (d != null && !collidesWithObstacle(pos, Obstacle.range) && magic >= Obstacle.cost) {
+			pos.add(d);
+            Obstacle o = new Obstacle(pos);
 			synchronized (obstacles) {
 				obstacles.add(o);
 			}
@@ -486,6 +437,16 @@ public class Game implements Serializable {
 		return new Vector(v.x / width * 16.0f, v.y / height * 9.0f);
 	}
 
+    /**
+     * Azért, hogy kevesebb new legyen
+     * @param x x fizikai koordináta
+     * @param y y fizikai koordináta
+     * @return a koordináták áttranszformálva játékbeli koordinákba
+     */
+    static public Vector toGameCoords(float x, float y) {
+        return new Vector(x / width * 16.0f, y / height * 9.0f);
+    }
+
 	/**
 	 * @param v egy Vector, ami játékbeli koordinátákat tartalmaz
 	 * @return v Vector áttranszformálva fizikai koordinátákba
@@ -493,4 +454,14 @@ public class Game implements Serializable {
 	static public Vector toMouseCoords(Vector v) {
 		return new Vector((v.x / 16.0f) * width, (v.y / 9.0f) * height);
 	}
+
+    /**
+     * Azért, hogy kevesebb new legyen
+     * @param x x játékbeli koordináta
+     * @param y y játékbeli koordniáta
+     * @return a koordináták áttranszformálva fizikai koordinátákba
+     */
+    static public Vector toMouseCoords(float x, float y) {
+        return new Vector((x / 16.0f) * width, (y / 9.0f) * height);
+    }
 }

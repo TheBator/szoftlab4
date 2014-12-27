@@ -18,13 +18,14 @@ import hu.bme.aut.suchtowers.model.Vector;
  */
 public class GraphicGem extends GameDrawable {
 	public Vector pos;
+    private Paint p = new Paint();
 
 	/**
 	 * Beállítja a kapott varázskőtől függően a kirajzolandó képet.
 	 */
 	public GraphicGem(Gem g, Resources r) {
 		z_index = 2;
-        Vector siz = Game.toMouseCoords(new Vector(2, 2));
+        Vector siz = Game.toMouseCoords(2f, 2f);
 
 		if (g == TowerGem.red)
 			img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.red_gem), (int)siz.x, (int)siz.y, false);
@@ -50,7 +51,7 @@ public class GraphicGem extends GameDrawable {
         c.drawBitmap(img,
                      (int) mpos.x - img.getWidth() / 4,
                      (int) mpos.y - img.getHeight() / 4,
-                     new Paint());
+                     p);
 	}
 
 	public Vector getPosition() {

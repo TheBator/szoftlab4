@@ -26,7 +26,6 @@ public class Tower implements Serializable {
 	 * @param position A létrejövő torony kívánt helye.
 	 */
 	public Tower(Vector position) {
-
 		this.position = position;
 		gem = null;
 		cooldown = Game.FPS / fireRate;
@@ -41,7 +40,7 @@ public class Tower implements Serializable {
 	 * @return a megadott pozíció ütközik-e az építménnyel
 	 */
 	public boolean doesCollide(Vector pos) {
-		return pos.getDistance(position) <= 2;
+		return pos.getDistance(position) <= radius;
 	}
 
 	/**
