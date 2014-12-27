@@ -9,6 +9,7 @@
     <string name="about">About</string>
     <string name="title_activity_game">Such Towers</string>
     <string name="game_won">Congratulations! You\'ve won!</string>
-    <string name="game_lost">U MAD BRO?</string>
+    <string name="game_lost">You lost!</string>
+    <string name="magic">Magic</string>
 
 </resources>

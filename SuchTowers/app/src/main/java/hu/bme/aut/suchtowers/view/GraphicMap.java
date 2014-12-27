@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 
 import hu.bme.aut.suchtowers.R;
@@ -34,10 +35,10 @@ public class GraphicMap extends GameDrawable {
 
 		img = BitmapFactory.decodeResource(r, R.drawable.background);
 		mountains = BitmapFactory.decodeResource(r, R.drawable.sauron);
-        Vector s = Game.toMouseCoords(new Vector(mountains.getWidth() / 16f * 2, mountains.getHeight() / 9f * 2));
-        mountains = Bitmap.createScaledBitmap(mountains, mountains.getWidth() / 2, mountains.getHeight() / 2, false);
+        Vector s = Game.toMouseCoords(0.025f, 0.025f);
+        Log.d("GraphicMap", "x:" + s.x + ",y:" + s.y);
+        mountains = Bitmap.createScaledBitmap(mountains, (int)(mountains.getWidth() / s.x), (int)(mountains.getHeight() /  s.x), false);
 
-        Vector siz = Game.toMouseCoords(new Vector(80, 60)); //TODO
         paint.setColor(Color.argb(255, 85, 34, 0));
         paint.setStrokeWidth(width * 2);
 

@@ -15,12 +15,12 @@ public class ObstacleGem extends Gem {
 	}
 
 	static {
-		yellow = new ObstacleGem(1.5f, 0.6);
-		orange = new ObstacleGem(1.1f, 0.56);
+		yellow = new ObstacleGem(1.5f, 0.9);
+		orange = new ObstacleGem(1.1f, 0.7);
 	}
 
 	/**
-	 * Megadja, hogy egy akadály lassítási képességet mennyivel módosítja ez a varázskő.
+	 * Megadja, hogy egy akadály lassítási képesséet mennyivel módosítja ez a varázskő.
 	 *
 	 * @param enemyType Az ellenségtípus, amire vonatkozóan lekérdezzük a lassítás módosulásának mértékét.
 	 * @return Az enemyType típusú ellenség lassulásának módosulása.

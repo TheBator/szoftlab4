@@ -17,10 +17,10 @@ public class Obstacle implements Serializable {
 	static {
 		slowingFactor = new HashMap<EnemyType, Double>();
 
-		slowingFactor.put(EnemyType.dwarf, 0.5);
-		slowingFactor.put(EnemyType.elf, 0.7);
-		slowingFactor.put(EnemyType.human, 0.6);
-		slowingFactor.put(EnemyType.hobbit, 0.75);
+		slowingFactor.put(EnemyType.dwarf, 0.4);
+		slowingFactor.put(EnemyType.elf, 0.6);
+		slowingFactor.put(EnemyType.human, 0.5);
+		slowingFactor.put(EnemyType.hobbit, 0.65);
 	}
 
 	private ObstacleGem gem;

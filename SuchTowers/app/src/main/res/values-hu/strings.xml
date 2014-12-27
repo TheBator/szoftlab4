@@ -8,4 +8,5 @@
     <string name="about">Névjegy</string>
     <string name="game_won">Gratulálok! Nyertél</string>
     <string name="game_lost">Sajnos vesztettél :(</string>
+    <string name="magic">Varázserő</string>
 </resources>

@@ -127,7 +127,7 @@ public class GameView extends SurfaceView implements GameObserver, Serializable 
         p.setColor(Color.WHITE);
         p.setTextSize(40);
         p.setTextAlign(Paint.Align.RIGHT);
-        canvas.drawText("Magic: " + magic, getWidth() - 5, 40, p);
+        canvas.drawText(getResources().getText(R.string.magic) + ": " + magic, getWidth() - 5, 40, p);
         p.setTextSize(80);
         p.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(msg, getWidth() / 2, (getHeight() - 80) / 2, p);
@@ -151,12 +151,14 @@ public class GameView extends SurfaceView implements GameObserver, Serializable 
     public void gameLost() {
         msg = getResources().getString(R.string.game_lost);
         drawAll();
+        activity.gameEnded();
     }
 
     @Override
     public void gameWon() {
         msg = getResources().getString(R.string.game_won);
         drawAll();
+        activity.gameEnded();
     }
 
     @Override
