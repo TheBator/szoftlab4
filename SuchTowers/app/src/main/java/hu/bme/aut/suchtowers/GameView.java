@@ -1,13 +1,16 @@
 package hu.bme.aut.suchtowers;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+import android.view.ViewTreeObserver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,7 +25,6 @@ import hu.bme.aut.suchtowers.model.Projectile;
 import hu.bme.aut.suchtowers.model.Tower;
 import hu.bme.aut.suchtowers.view.GameDrawable;
 import hu.bme.aut.suchtowers.view.GraphicEnemy;
-import hu.bme.aut.suchtowers.view.GraphicMap;
 import hu.bme.aut.suchtowers.view.GraphicObstacle;
 import hu.bme.aut.suchtowers.view.GraphicProjectile;
 import hu.bme.aut.suchtowers.view.GraphicTower;
@@ -32,12 +34,17 @@ import hu.bme.aut.suchtowers.view.GraphicTower;
  * TODO: document your custom view class.
  */
 public class GameView extends SurfaceView implements GameObserver, Serializable {
-    private List<GameDrawable> drawables = new ArrayList<GameDrawable>();
-    private float density = getResources().getDisplayMetrics().density;
+    private final List<GameDrawable> drawables = new ArrayList<GameDrawable>();
     private transient Game game;
     private int magic;
     private String msg = "";
     private GameActivity activity;
+
+    private Paint p = new Paint();
+    /**
+     * Késleltetett inicializálása a grafikus elemeknek addig amíg a View méretei lekérhetők
+     */
+    private Runnable initRunnable;
 
     public GameView(Context context) {
         super(context);
@@ -55,26 +62,55 @@ public class GameView extends SurfaceView implements GameObserver, Serializable 
     }
 
     public void setGame(Game game, GameActivity activity) {
+       // this.measure(MeasureSpec.EXACTLY, MeasureSpec.EXACTLY);
         this.game = game;
-        drawables.add(new GraphicMap(game.getMap(), getResources(), this));
         magic = game.getMagic();
 
         this.activity = activity;
     }
 
-    public void onContinue(Game game, GameActivity activity) {
+    public void setInit(Runnable init) {
+        initRunnable = init;
+    }
+
+    @Override
+    protected void onMeasure(int width, int height) {
+        super.onMeasure(width, height);
+        Game.updateViewDimensions(getWidth(), getHeight());
+    }
+
+/*    public void onContinue(Game game, GameActivity activity) {
         this.game = game;
         this.activity = activity;
         magic = game.getMagic();
     }
+*/
 
     private void init(AttributeSet attrs, int defStyle) {
         setWillNotDraw(false);
+        final ViewTreeObserver vto = getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            boolean wasCalled = false;
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onGlobalLayout() {
+                if (!wasCalled) {
+                    Game.updateViewDimensions(getWidth(), getHeight());
+
+                    initRunnable.run();
+                    wasCalled = true;
+                }
+
+                if (vto.isAlive())
+                    vto.removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas = getHolder().lockCanvas();
+
         if (!isInEditMode()) {
             super.onDraw(canvas);
 
@@ -86,9 +122,8 @@ public class GameView extends SurfaceView implements GameObserver, Serializable 
         }
         else {
             Bitmap bp = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-            canvas.drawBitmap(bp, 0, 0, new Paint());
+            canvas.drawBitmap(bp, 0, 0, p);
         }
-        Paint p = new Paint();
         p.setColor(Color.WHITE);
         p.setTextSize(40);
         p.setTextAlign(Paint.Align.RIGHT);
@@ -186,6 +221,13 @@ public class GameView extends SurfaceView implements GameObserver, Serializable 
     public void obstacleAdded(Obstacle o) {
         synchronized (drawables) {
             drawables.add(new GraphicObstacle(o, getResources()));
+            Collections.sort(drawables, Collections.reverseOrder());
+        }
+    }
+
+    public void addDrawable(GameDrawable d) {
+        synchronized (drawables) {
+            drawables.add(d);
             Collections.sort(drawables, Collections.reverseOrder());
         }
     }

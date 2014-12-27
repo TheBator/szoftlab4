@@ -29,7 +29,7 @@ public class GraphicTower extends GameDrawable {
 		this.t = t;
         this.r = r;
 		z_index = 2;
-        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+        Vector siz = Game.toMouseCoords(new Vector(0.67f, 0.67f));
 		img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.tower), (int)siz.x, (int)siz.y, false);
 	}
 
@@ -77,7 +77,7 @@ public class GraphicTower extends GameDrawable {
 	 * Beállítja a megfelelő kirajzolandó képet, mikor a tornyon lévő varázskő megváltozik.
 	 */
 	public void setGem() {
-        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+        Vector siz = Game.toMouseCoords(new Vector(0.67f, 0.67f));
         if (t.getGem() != null) {
             if (t.getGem() == TowerGem.red)
                 gemImage = Bitmap.createScaledBitmap(

@@ -3,7 +3,6 @@ package hu.bme.aut.suchtowers;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +18,7 @@ import hu.bme.aut.suchtowers.model.Projectile;
 import hu.bme.aut.suchtowers.model.Tower;
 import hu.bme.aut.suchtowers.model.TowerGem;
 import hu.bme.aut.suchtowers.model.Vector;
+import hu.bme.aut.suchtowers.view.GraphicMap;
 
 public class GameActivity extends Activity {
     private Game game;
@@ -53,11 +53,8 @@ public class GameActivity extends Activity {
         }
         else {
             continueFromSavedState((Game)savedInstanceState.getSerializable("game"));
-            Integer i = (Integer)savedInstanceState.getSerializable("test");
             Game g = (Game)savedInstanceState.getSerializable("game");
             game = g;
-            Log.d("continued", i + "");
-            Log.d("continued_game", g.getEnemies().size() + "");
         }
 
         game.setObserver(gview);
@@ -80,25 +77,40 @@ public class GameActivity extends Activity {
 
     private void startNew(InputStream map, InputStream mission) {
         game = new Game(getBaseContext(), map, mission);
+        gview.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
         gview.setGame(game, this);
+
+        gview.setInit(new Runnable() {
+            @Override
+            public void run() {
+                gview.addDrawable(new GraphicMap(game.getMap(), getResources(), gview));
+            }
+        });
     }
 
-    private void continueFromSavedState(Game game) {
+    private void continueFromSavedState(final Game game) {
         this.game = game;
+        gview.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
         gview.setGame(game, this);
+        gview.setInit(new Runnable() {
+            @Override
+            public void run() {
+                for (Enemy e : game.getEnemies()) {
+                    gview.enemyAdded(e);
+                }
+                for (Tower t : game.getTowers()) {
+                    gview.towerAdded(t);
+                }
+                for (Obstacle o : game.getObstacles()) {
+                    gview.obstacleAdded(o);
+                }
+                for (Projectile p : game.getProjectiles()) {
+                    gview.projectileAdded(p);
+                }
 
-        for (Enemy e : game.getEnemies()) {
-            gview.enemyAdded(e);
-        }
-        for (Tower t : game.getTowers()) {
-            gview.towerAdded(t);
-        }
-        for (Obstacle o : game.getObstacles()) {
-            gview.obstacleAdded(o);
-        }
-        for (Projectile p : game.getProjectiles()) {
-            gview.projectileAdded(p);
-        }
+                gview.addDrawable(new GraphicMap(game.getMap(), getResources(), gview));
+            }
+        });
 
         game.cont();
     }

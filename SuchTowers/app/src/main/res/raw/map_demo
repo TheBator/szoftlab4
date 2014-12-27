@@ -1,59 +1,60 @@
+<?xml version="1.0"?>
 <map>
 	<name>Test</name>
 	<waypoint>
 		<id>1</id>
 		<coords>
 			<x>0</x>
-			<y>40</y>
+			<y>5.7</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>2</id>
 		<coords>
-			<x>14</x>
-			<y>20</y>
+			<x>2</x>
+			<y>2.85</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>3</id>
 		<coords>
-			<x>38</x>
-			<y>10</y>
+			<x>5.42</x>
+			<y>1.42</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>4</id>
 		<coords>
-			<x>53</x>
-			<y>11</y>
+			<x>7.57</x>
+			<y>1.57</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>5</id>
 		<coords>
-			<x>25</x>
-			<y>38</y>
+			<x>3.57</x>
+			<y>5.43</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>6</id>
 		<coords>
-			<x>40</x>
-			<y>40</y>
+			<x>5.71</x>
+			<y>5.71</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>7</id>
 		<coords>
-			<x>60</x>
-			<y>30</y>
+			<x>8.57</x>
+			<y>4.28</y>
 		</coords>
 	</waypoint>
 	<waypoint>
 		<id>8</id>
 		<coords>
-			<x>78</x>
-			<y>30</y>
+			<x>16</x>
+			<y>4.29</y>
 		</coords>
 	</waypoint>
 

@@ -28,10 +28,10 @@ public class EnemyType implements Serializable {
 	 * Statikus konstruktor, létrehozza az ellenségtípusokat.
 	 * */
 	static {
-		elf = new EnemyType(110, 4.4, 160);
-		dwarf = new EnemyType(140, 2.8, 130);
-		hobbit = new EnemyType(75, 3.4, 80);
-		human = new EnemyType(100, 3.9, 120);
+		elf = new EnemyType(110, 4.4 / 5, 160);
+		dwarf = new EnemyType(140, 2.8 / 5, 130);
+		hobbit = new EnemyType(75, 3.4 / 5, 80);
+		human = new EnemyType(100, 3.9 / 5, 120);
 	}
 
 	/**

@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Obstacle implements Serializable {
 	public static final int cost = 500;
 	private static HashMap<EnemyType, Double> slowingFactor;
-	public static final float range = 2;
+	public static final float range = 0.33f;
 
 	static {
 		slowingFactor = new HashMap<EnemyType, Double>();

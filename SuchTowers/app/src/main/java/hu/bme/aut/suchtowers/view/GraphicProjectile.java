@@ -31,7 +31,7 @@ public class GraphicProjectile extends GameDrawable {
 		else
 			img = BitmapFactory.decodeResource(r, R.drawable.projectile);
 
-        Vector siz = Game.toMouseCoords(new Vector(2, 2));
+        Vector siz = Game.toMouseCoords(new Vector(0.33f, 0.33f));
 
         if (p instanceof SplitterProjectile)
             img = Bitmap.createScaledBitmap(img, (int)siz.x, (int)siz.y, false);

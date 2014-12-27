@@ -31,7 +31,7 @@ public class GraphicObstacle extends GameDrawable {
 		z_index = 1;
 		img = BitmapFactory.decodeResource(r, R.drawable.obstacle);
 
-        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+        Vector siz = Game.toMouseCoords(new Vector(0.67f, 0.67f));
         img = Bitmap.createScaledBitmap(img, (int)siz.x, (int)siz.y, false);
 	}
 
@@ -80,7 +80,7 @@ public class GraphicObstacle extends GameDrawable {
 	 * Beállítja az akadály varázskövének megfelelően a varázskő képét.
 	 */
 	public void setGem() {
-        Vector siz = Game.toMouseCoords(new Vector(4, 4));
+        Vector siz = Game.toMouseCoords(new Vector(0.67f, 0.67f));
 		if (o.getGem() != null) {
 			if (o.getGem() == ObstacleGem.orange)
 				gemImage = Bitmap.createScaledBitmap(

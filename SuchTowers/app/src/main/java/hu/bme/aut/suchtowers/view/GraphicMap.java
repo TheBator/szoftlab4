@@ -21,7 +21,8 @@ public class GraphicMap extends GameDrawable {
 
 	private Map m;
 	private Bitmap mountains;
-    private int width = (int)Game.toMouseCoords(new Vector(2, 2)).x;
+    private Vector size = new Vector(0.33f, 0.33f);
+    private float width = Game.toMouseCoords(size).x;
     private Paint paint = new Paint();
     private Vector last;
 
@@ -34,7 +35,7 @@ public class GraphicMap extends GameDrawable {
 
 		img = BitmapFactory.decodeResource(r, R.drawable.background);
 		mountains = BitmapFactory.decodeResource(r, R.drawable.sauron);
-        Vector s = Game.toMouseCoords(new Vector(4, 4));
+        Vector s = Game.toMouseCoords(new Vector(mountains.getWidth() / 16f * 2, mountains.getHeight() / 9f * 2));
         mountains = Bitmap.createScaledBitmap(mountains, mountains.getWidth() / 2, mountains.getHeight() / 2, false);
 
         Vector siz = Game.toMouseCoords(new Vector(80, 60));

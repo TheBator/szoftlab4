@@ -26,7 +26,7 @@ public class GraphicEnemy extends GameDrawable {
 	public GraphicEnemy(Enemy e, Resources r) {
 		this.e = e;
 		z_index = 3;
-        Vector siz = Game.toMouseCoords(new Vector(2, 2));
+        Vector siz = Game.toMouseCoords(new Vector(0.33f, 0.33f));
 
 		if (e.getEnemyType() == EnemyType.human)
             img = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(r, R.drawable.human), (int)siz.x, (int)siz.y, false);

@@ -1,6 +1,7 @@
 package hu.bme.aut.suchtowers.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -459,12 +460,30 @@ public class Game implements Serializable {
 	 */
 	static private int pix = 10;
 
+    private static float width, height;
+    public static void updateViewDimensions(int width, int height) {
+        float nw, nh;
+
+        nw = width;
+        nh = 9 * (width / 16.0f);
+        if (nh > height) {
+            nh = height;
+            nw = 16 * (height / 9.0f);
+        }
+
+        Game.height = nh;
+        Game.width = nw;
+
+        Log.d("new_height", nh + "");
+        Log.d("new_width", nw + "");
+    }
+
 	/**
 	 * @param v egy Vector, ami fizikai koordinátákat tartalmaz
 	 * @return v Vector áttranszformálva játékbeli koordinákba
 	 */
 	static public Vector toGameCoords(Vector v) {
-		return new Vector(v.x / pix, v.y / pix);
+		return new Vector(v.x / width * 16.0f, v.y / height * 9.0f);
 	}
 
 	/**
@@ -472,6 +491,6 @@ public class Game implements Serializable {
 	 * @return v Vector áttranszformálva fizikai koordinátákba
 	 */
 	static public Vector toMouseCoords(Vector v) {
-		return new Vector(v.x * pix, v.y * pix);
+		return new Vector((v.x / 16.0f) * width, (v.y / 9.0f) * height);
 	}
 }

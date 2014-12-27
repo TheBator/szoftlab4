@@ -19,7 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class Map implements Serializable {
 
-	public static double roadRadius = 2;
+	public static float roadRadius = 0.5f;
 
 	private HashMap<Integer, Waypoint> waypoints;
     private int lastId;

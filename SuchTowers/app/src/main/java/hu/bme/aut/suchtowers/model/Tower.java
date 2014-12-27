@@ -9,11 +9,11 @@ import java.util.List;
  *
  */
 public class Tower implements Serializable {
-	static final float range = 13;
+	static final float range = 2.17f;
 	static final double fireRate = 1;
 	static final int cost = 750;
-	static final int projectileSpeed = 25;
-	public static double radius = 2;
+	static final int projectileSpeed = 3;
+	public static float radius = 0.33f;
 	static HashMap<EnemyType, Double> damage = new HashMap<EnemyType, Double>();
 	private TowerGem gem;
 	private Vector position;
@@ -42,7 +42,6 @@ public class Tower implements Serializable {
 	 */
 	public boolean doesCollide(Vector pos) {
 		return pos.getDistance(position) <= 2;
-
 	}
 
 	/**

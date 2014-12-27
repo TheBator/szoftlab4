@@ -1,94 +1,99 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    android:paddingBottom="0dp" >
-    <LinearLayout
+    android:paddingBottom="0dp"
+    android:background="@color/panel_color">
+    <HorizontalScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
-        android:background="@color/panel_color">
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/tower"
-            android:id="@+id/btnTower"
-            android:scaleType="fitCenter"
-            android:padding="7dp"
-            android:background="@android:drawable/btn_default"
-            android:theme="@style/myButton" />
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/red_gem"
-            android:id="@+id/btnRedGem"
-            android:background="@android:drawable/btn_default"/>
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/green_gem"
-            android:id="@+id/btnGreenGem"
-            android:background="@android:drawable/btn_default"/>
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/blue_gem"
-            android:id="@+id/btnBlueGem"
-            android:background="@android:drawable/btn_default"/>
+        android:id="@+id/panel_scroll">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout"
+            android:background="@color/panel_color">
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/tower"
+                android:id="@+id/btnTower"
+                android:scaleType="fitCenter"
+                android:padding="7dp"
+                android:background="@android:drawable/btn_default"
+                android:theme="@style/myButton" />
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/red_gem"
+                android:id="@+id/btnRedGem"
+                android:background="@android:drawable/btn_default"/>
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/green_gem"
+                android:id="@+id/btnGreenGem"
+                android:background="@android:drawable/btn_default"/>
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/blue_gem"
+                android:id="@+id/btnBlueGem"
+                android:background="@android:drawable/btn_default"/>
 
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/obstacle"
-            android:id="@+id/btnObstacle"
-            android:background="@android:drawable/btn_default"/>
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/obstacle"
+                android:id="@+id/btnObstacle"
+                android:background="@android:drawable/btn_default"/>
 
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/yellow_gem"
-            android:id="@+id/btnYellowGem"
-            android:background="@android:drawable/btn_default"/>
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/yellow_gem"
+                android:id="@+id/btnYellowGem"
+                android:background="@android:drawable/btn_default"/>
 
-        <hu.bme.aut.suchtowers.ActionImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/orange_gem"
-            android:id="@+id/btnOrangeGem"
-            android:background="@android:drawable/btn_default"/>
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            android:text="||"
-            android:textAlignment="center"
-            android:visibility="invisible"
-            android:textSize="30dp"
-            android:id="@+id/btnPause"
-            android:background="@android:drawable/btn_default"/>
-
-    </LinearLayout>
+            <hu.bme.aut.suchtowers.ActionImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/orange_gem"
+                android:id="@+id/btnOrangeGem"
+                android:background="@android:drawable/btn_default"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                android:text="||"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                android:textSize="30dp"
+                android:id="@+id/btnPause"
+                android:background="@android:drawable/btn_default"/>
+        </LinearLayout>
+    </HorizontalScrollView>
     <hu.bme.aut.suchtowers.GameView
         android:id="@+id/game_view"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/linearLayout">
+        android:layout_below="@+id/panel_scroll">
     </hu.bme.aut.suchtowers.GameView>
 </RelativeLayout>
