@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.View;
 
@@ -35,9 +37,11 @@ public class GraphicMap extends GameDrawable {
 
 		img = BitmapFactory.decodeResource(r, R.drawable.background);
 		mountains = BitmapFactory.decodeResource(r, R.drawable.sauron);
-        Vector s = Game.toMouseCoords(0.025f, 0.025f);
+        Vector siz = new Vector((float)mountains.getWidth() / v.getWidth(), (float)mountains.getHeight() / v.getHeight());
+
+        Vector s = Game.toMouseCoords(3.5f, 3.5f);
         Log.d("GraphicMap", "x:" + s.x + ",y:" + s.y);
-        mountains = Bitmap.createScaledBitmap(mountains, (int)(mountains.getWidth() / s.x), (int)(mountains.getHeight() /  s.x), false);
+        mountains = scaleBitmap(mountains, (int)s.x, (int)s.y);
 
         paint.setColor(Color.argb(255, 85, 34, 0));
         paint.setStrokeWidth(width * 2);
@@ -46,6 +50,19 @@ public class GraphicMap extends GameDrawable {
         last.x -= mountains.getWidth() / 2;
         last.y -= mountains.getHeight();
 	}
+
+    /**
+     * Átméretez egy képet, úgy hogy beleférjen a megadott téglalapba
+     * @param b az átmérezendő kép
+     * @param w a referencia téglalap szélessége
+     * @param h a referencia téglalap magassága
+     * @return az átméretezett kép
+     */
+    Bitmap scaleBitmap(Bitmap b, int w, int h) {
+        Matrix m = new Matrix();
+        m.setRectToRect(new RectF(0, 0, b.getWidth(), b.getHeight()), new RectF(0, 0, w, h), Matrix.ScaleToFit.CENTER);
+        return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), m, true);
+    }
 
 	/**
 	 * Kirajzolja a pálya hátterét, majd a Waypointokon végighaladva
