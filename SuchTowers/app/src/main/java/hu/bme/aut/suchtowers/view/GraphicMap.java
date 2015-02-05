@@ -35,6 +35,7 @@ public class GraphicMap extends GameDrawable {
 		z_index = 0;
 
 		img = BitmapFactory.decodeResource(r, R.drawable.background);
+        img = Bitmap.createScaledBitmap(img, v.getWidth(), v.getHeight(), true);
 		mountains = BitmapFactory.decodeResource(r, R.drawable.sauron);
 
         Vector s = Game.toMouseCoords(3.5f, 3.5f);

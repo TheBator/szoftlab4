@@ -9,5 +9,6 @@
     <string name="game_won">Gratulálok! Nyertél</string>
     <string name="game_lost">Sajnos vesztettél :(</string>
     <string name="magic">VE</string>
-    <string name="about_text">Fejlesztő: Tallér Bátor (tallerbator@gmail.com)\nHázi feladatként készült (BME-AUT)</string>
+    <string name="title_activity_game">Such Towers</string>
+    <string name="about_text">Fejlesztő: Tallér Bátor (tallerbator@gmail.com)\nHázi feladatnak készült @ BME-AUT</string>
 </resources>
